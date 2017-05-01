@@ -82,8 +82,8 @@ ArduinoTx::ArduinoTx() {
 
 	CurrentDataset_byt = 0; // Dataset (model number) currently loaded in RAM
 	TxAlarm_int = ALARM_NONE; // current alarm state
-	DualRate_bool = false; // true=dual rate ON
-	ThrottleCut_bool = false; // true=throttle cut off, false=throttle enabled
+	DualRate_bool = true; // true=dual rate ON (NPPC will be never false)
+	ThrottleCut_bool = false; // true=throttle disabled, false=throttle enabled
 	EngineEnabled_bool = false; // will be updated by Refresh()
 	SettingsLoaded_bool = false; // set by Init() at startup
 	CommitChanges_bool = false; // set by process_command_line() after changing a variable, reset by loop()
@@ -98,11 +98,18 @@ void ArduinoTx::Init() {
 #ifdef BUZZER_ENABLED
 			case BUZZER_PIN:
 #endif
+			case MULTIPROTOCOL_POWER_TX_PIN:
+			case MULTIPROTOCOL_POWER_MODULE1_PIN:
+			case MULTIPROTOCOL_POWER_MODULE2_PIN:
+			case MULTIPROTOCOL_CONTROL1_PIN:
+			case MULTIPROTOCOL_CONTROL2_PIN:
 			case LED_PIN:
 			case PPM_PIN:
 				pinMode(idx_byt, OUTPUT);
 				break;
-			
+			case THROTTLECUT_SWITCH_PIN: // NPPC. we do not need pullup here, because we have pulldown resistor connected on this pin. 
+				pinMode(idx_byt, INPUT);
+				break;
 			default:
 				pinMode(idx_byt, INPUT_PULLUP);
 				break;
@@ -179,8 +186,8 @@ void ArduinoTx::Refresh() {
 	}
 	
 	// Read other transmitter special switches
-	DualRate_bool = digitalRead(DUALRATE_SWITCH_PIN);
-	ThrottleCut_bool = digitalRead(THROTTLECUT_SWITCH_PIN);
+	//DualRate_bool = digitalRead(DUALRATE_SWITCH_PIN); // NPPC never use dual rates functionality
+	ThrottleCut_bool = !digitalRead(THROTTLECUT_SWITCH_PIN); // chaned by NPPC (we have pulldown resitor here. changing this behaviour to have double arming)
 	
 	// set RunMode according to switches 
 	RunMode_int = refresh_runmode();
@@ -510,7 +517,7 @@ byte ArduinoTx::debounce_rotating_switch() {
 	const unsigned int step_int = 1024 / MODEL_ROTATING_SWITCH_STEPS;
 	const unsigned int offset_int = step_int / 2;
 	unsigned int limit_int = offset_int;
-	unsigned int sample_int = analogRead(MODEL_ROTATING_SWITCH_PIN) & 0xFFF8; // filter noise: ignore least significant 3 bits
+	unsigned int sample_int = 0; //analogRead(MODEL_ROTATING_SWITCH_PIN) & 0xFFF8; // filter noise: ignore least significant 3 bits (NPPC not in use)
 	while (sample_int > limit_int) {
 		position_int++;
 		limit_int += step_int;

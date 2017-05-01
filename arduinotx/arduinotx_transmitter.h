@@ -88,7 +88,7 @@ class ArduinoTx {
 		byte CurrentDataset_byt; // Dataset (model number) currently loaded in RAM
 		Alarm TxAlarm_int; // current alarm state
 		byte DualRate_bool; // true=dual rate ON
-		byte ThrottleCut_bool ; // true=throttle cut off, false=throttle enabled
+		byte ThrottleCut_bool ; // true=throttle disabled, false=throttle enabled 
 		byte EngineEnabled_bool; // set by check_throttle() at startup
 		byte SettingsLoaded_bool; // set by load_settings() at startup
 		byte CommitChanges_bool; // set by CommitChanges(), reset by Refresh()
