@@ -16,6 +16,7 @@
 ** 15-06-2013 ModelVar*, SetVar()
 ** 16-06-2013 InitEEProm(), Serialize()
 ** 04-07-2013 comments start by '#' instead of ';'
+** 02-05-2017 NPPC: new EEPROM value to store
 */
 
 /* Copyright (C) 2014 Richard Goutorbe.  All right reserved.
@@ -33,6 +34,9 @@ Contact information: http://www.reseau.org/arduinorc/index.php?n=Main.Contact
 #define IDLIB 55
 // version of this library, used to test if the EEProm contains data from an older version
 #define VERLIB 15
+
+//NPPC we store here last used protocol number
+#define lastEEPROMAddress 1023	// NPPC atmega328 has 1k of EEPROM
 
 /* 
 EEPROM layout for 6 channels
@@ -707,4 +711,16 @@ int ArduinotxEeprom::get_var_offset(byte dataset_byt, const char *var_str, byte 
 }
 
 
+byte getLastEepromValue(){
+	byte tmp = EEPROM.read(lastEEPROMAddress);
+	if (tmp==255){tmp=B00000001} // if EEPROM is empty, then default protocol is 1 - FrSkyX
+	return tmp;
+}
 
+void storeLastEepromValue(byte val){
+	byte tmp = EEPROM.read(lastEEPROMAddress);
+	// store only if value is changed
+	if (tmp!=val){
+		EEPROM.write(lastEEPROMAddress, val);
+	}
+}

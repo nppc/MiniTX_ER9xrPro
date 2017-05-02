@@ -63,11 +63,9 @@ Contact information: http://www.reseau.org/arduinorc/index.php?n=Main.Contact
 
 // define two pins for choosing protocol of MultiProtocol module (currently only three protocols)
 #define MULTIPROTOCOL_SWITCH_MODE_PIN 12	// connected as push button. Will be read during startup and changing to one of three protocols.
-#define MULTIPROTOCOL_POWER_MODULE1_PIN 3		// On/Off power to TX module1
-#define MULTIPROTOCOL_POWER_MODULE2_PIN 4		// On/Off power to TX module2
 #define MULTIPROTOCOL_CONTROL1_PIN 5		// connected as rotary encoder of MultiProtocol module
 #define MULTIPROTOCOL_CONTROL2_PIN 6		// connected as rotary encoder of MultiProtocol module
-#define MULTIPROTOCOL_POWER_TX_PIN 11		// On/Off power to TX arduino
+#define MULTIPROTOCOL_RESET_PIN 11		    // On/Off TX arduino
 
 
 // next 2 const are used only if MODEL_SWITCH_BEHAVIOUR == MODEL_SWITCH_ROTATING (see below)

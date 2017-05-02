@@ -111,6 +111,20 @@ volatile unsigned int PpmCopy_int[CHANNELS]; // pulse widths (microseconds)
 */
 
 void setup() {
+	// hold Multiprotocol Arduino in RESET state while setting data
+	digitalWrite(MULTIPROTOCOL_RESET_PIN,LOW);
+	// now lets set Multiprotocol encoder
+	byte tmp = getLastEepromValue();
+	switch (tmp) {
+		case B00000001:	// Protocol 1 - FrSkyX
+			digitalWrite(MULTIPROTOCOL_CONTROL1_PIN,LOW);
+			digitalWrite(MULTIPROTOCOL_CONTROL1_PIN,HIGH);
+			break;
+		default:
+			digitalWrite(MULTIPROTOCOL_CONTROL1_PIN,HIGH);
+			digitalWrite(MULTIPROTOCOL_CONTROL1_PIN,HIGH);
+			break;
+	}
 	noInterrupts(); // No PPM signal until initialization complete
 	ArduinoTx_obj.Init();
 	interrupts();
