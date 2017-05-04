@@ -60,9 +60,9 @@ Contact information: http://www.reseau.org/arduinorc/index.php?n=Main.Contact
 #define THROTTLECUT_SWITCH_PIN A4	// NPPC (Same as POT5 (ch5). While reading this pin we will invert value. Pulldown resistor is connected here)
 //#define DUALRATE_SWITCH_PIN 12	// opened=dual rate ON, closed=OFF (NPPC we will not using Dual Rates switch)
 #define MODEL_SWITCH_PIN 8		// opened=use model selected by the MODEL command (CDS global variable), closed=use model corresponding to the ADS global variable
+								// Also will be read during startup to choose from one of three TX protocols.
 
 // define two pins for choosing protocol of MultiProtocol module (currently only three protocols)
-#define MULTIPROTOCOL_SWITCH_MODE_PIN 12	// connected as push button. Will be read during startup and changing to one of three protocols.
 #define MULTIPROTOCOL_CONTROL1_PIN 5		// connected as rotary encoder of MultiProtocol module
 #define MULTIPROTOCOL_CONTROL2_PIN 6		// connected as rotary encoder of MultiProtocol module
 #define MULTIPROTOCOL_RESET_PIN 11		    // On/Off TX arduino

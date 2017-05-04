@@ -2,7 +2,7 @@
 // 1S battery for easy charging
 $fn=50;
 
-// CASE
+// CASE (upper wall 3mm, sides 2mm)
 case_x=145;
 case_y=75;
 case_z=40;
@@ -17,8 +17,9 @@ case_roundness=10;
 
 
 caseU();
+//caseL();
+//rotate([-180,0,0])rotate([0,90,180])translate([10,23,48.6])rotate([0,0,180])handsupport();
 
-/*
 translate([case_x/2-11,-case_y/2+3,case_z/2-2])rotate([0,-90,0])rotate([0,0,90]){
     //antennacase();dipole();
     antennaholder();
@@ -28,12 +29,18 @@ translate([-case_x/2+11,-case_y/2+3,case_z/2-2])rotate([0,-90,0])rotate([0,0,90]
     antennaholder();
 }
 
+//translate([0,-11,case_z/2-0.6])microdipswitch();
+//translate([0,11+10,case_z/2-0.6])microdipswitch();
+
+/*
 translate([-case_x/3,-case_y/2+2,0])rotate([90,90,0])switch();
 translate([case_x/3,-case_y/2+2,0])rotate([90,90,0])switch();
 
 
 translate([case_x/4-4,5,case_z/2-2.5])rotate([0,0,180])txgimbal();
 translate([-case_x/4+4,5,case_z/2-2.5])txgimbal();
+
+
 
 translate([-case_x/3.2,-case_y/2+13,case_z/2-25])rotate([90,0,0])cc2500();
 translate([case_x/4.6,-case_y/2+13,case_z/2-12])rotate([90,0,0])NRF24L01P();
@@ -63,29 +70,69 @@ module caseU(){
         translate([case_x/3,-case_y/2+2,0])cube([3.5,5,7], center=true);
         
         //cutout for leds
-        translate([-case_x/2+7,-case_y/2+15,case_z/2-1])cutoutforled();
-        translate([case_x/4-4,5,case_z/2-2.5])cylinder(d=roundcutout+0.6,h=6,center=true);
-        translate([-case_x/4+4,5,case_z/2-2.5])cylinder(d=roundcutout+0.6,h=6,center=true);
+        translate([-case_x/2+7,-case_y/2+15.5,case_z/2-1])cutoutforled();
+        translate([-case_x/3,-case_y/2+11,case_z/2-1])cutoutforled();
+        translate([case_x/2-7,-case_y/2+15.5,case_z/2-1])cutoutforled();
+        translate([case_x/3,-case_y/2+11,case_z/2-1])cutoutforled();
         
-       
+        //cutout for gimbals
+        translate([case_x/4-4,5,case_z/2-2.5]){
+            cylinder(d=roundcutout+0.6,h=6,center=true);
+            holesforgimbalmount(3.3);
+            translate([0,0,9])holesforgimbalmount(6.5);
+        }
+        translate([-case_x/4+4,5,case_z/2-2.5]){
+            cylinder(d=roundcutout+0.6,h=6,center=true);
+            holesforgimbalmount(3.3);
+            translate([0,0,9])holesforgimbalmount(6.5);
+        }
+        
+        // cutout for powerswitch
+        translate([0,5,case_z/2-2.3])powerswitchholdercutout();
+        
+        //cutout for dipswitch
+        translate([0,-11,case_z/2-0.6])hole_microdipswitch();
+        translate([0,11+10,case_z/2-0.6])hole_microdipswitch();
+
+
+
+        //cutout for hand holder
+        translate([-case_x/2,case_y/2-10,0])cube([4,30,100],center=true);
+        translate([case_x/2,case_y/2-10,0])cube([4,30,100],center=true);
+
 
         
         //translate([30,-30,0])cube([100,100,100]); // temp cut
     }
+    
     translate([-case_x/3,-case_y/2+2,0])rotate([90,90,0])switchholder();
     translate([case_x/3,-case_y/2+2,0])rotate([90,90,0])switchholder();
     // Battery holder
     translate([0,-case_y/2+4,0])batteryholder();
     translate([0,case_y/2-4,0])batteryholder();
     // led holder
-    translate([-case_x/2+7,-case_y/2+15,case_z/2-2])ledholder();
+    translate([-case_x/2+7,-case_y/2+15.5,case_z/2-2])ledholder();
+    translate([-case_x/3,-case_y/2+11,case_z/2-2])rotate([0,0,90])ledholder();
+    translate([case_x/2-7,-case_y/2+15.5,case_z/2-2])rotate([0,0,180])ledholder();
+    translate([case_x/3,-case_y/2+11,case_z/2-2])rotate([0,0,90])ledholder();
+    translate([0,5,case_z/2-2])powerswitchholder();
     
+    // reinforce for cutout handholder
+    translate([-case_x/2+2.75,case_y/2-15.5,36/4])cube([1.5,26,36/2],center=true);
+    translate([case_x/2-2.75,case_y/2-15.5,36/4])cube([1.5,26,36/2],center=true);
 }
+
 module caseL(){
     difference(){
          case_lower(case_x,case_y,case_z,case_roundness);
          translate([0,0,1])case_lower(case_x-4,case_y-4,case_z-3,case_roundness-4);
-         translate([0,0,-50])cube([100,100,100]);
+         // cutout for bind dipswitch 
+         translate([0,5,-case_z/2+1])rotate([180,0,0])hole_microdipswitch(); 
+        
+        //cutout for hand holder
+        translate([-case_x/2,case_y/2-10,0])cube([4,30,100],center=true);
+        translate([case_x/2,case_y/2-10,0])cube([4,30,100],center=true);
+        //translate([0,0,-50])cube([100,100,100]);
     }
       
 }
@@ -137,12 +184,7 @@ module txgimbal(){
              translate([-plate/2-2.5,-35/2,-25])cube([2.5,35,25]);
              translate([-plate/2-10,-35/2+10,-25])cube([10,25,15]);
          }
-         hdh=holedist/2;
-         translate([hdh,hdh,0])cylinder(d=3,h=15, center=true);
-         translate([hdh,-hdh,0])cylinder(d=3,h=15, center=true);
-         translate([-hdh,hdh,0])cylinder(d=3,h=15, center=true);
-         translate([-hdh,-hdh,0])cylinder(d=3,h=15, center=true);
-
+         holesforgimbalmount(3);
          translate([hdh,hdh,0])cube([8,8,8], center=true);
          translate([hdh,-hdh,0])cube([8,8,8], center=true);
          translate([-hdh,hdh,0])cube([8,8,8], center=true);
@@ -154,6 +196,15 @@ module txgimbal(){
  }
  // stick
  color("WHITE")cylinder(d1=3,d2=7,h=30,$fn=10);
+}
+
+module holesforgimbalmount(diam){
+     hdh=holedist/2;
+     translate([hdh,hdh,0])cylinder(d=diam,h=15, center=true);
+     translate([hdh,-hdh,0])cylinder(d=diam,h=15, center=true);
+     translate([-hdh,hdh,0])cylinder(d=diam,h=15, center=true);
+     translate([-hdh,-hdh,0])cylinder(d=diam,h=15, center=true);
+
 }
 
 module cc2500(){
@@ -225,6 +276,7 @@ module antennaholder(){
         translate([4+1.75,0,0])rotate([0,90,0])cylinder(d1=6.7,d2=7.2,h=0.5,center=true);
         translate([4+2.5,0,0])rotate([0,90,0])cylinder(d1=7.2,d2=6.2,h=1,center=true);
         translate([-7.4,0,0])cube([20,20,20],center=true);
+        translate([20,0,0])cube([20,20,20],center=true);
         
     }
     
@@ -268,6 +320,23 @@ module switchholder(){
     translate([-7,3.5,-2])cube([13,1,4],center=true);
 }
 
+module powerswitchholder(){
+    difference(){ 
+        translate([0,0,0])cube([8,22,6],center=true);
+        cube([5.7,19.6,16],center=true);
+    }
+}
+
+
+module powerswitchholdercutout(){
+     hull(){
+         cube([5.7,7+2.2*2,1.5],center=true);
+         translate([0,0,1.5])cube([3.3,7,1],center=true);
+     }
+     translate([0,0,1.5])cube([3.3,7,3],center=true);
+     cube([5.7,19.6,1.3],center=true);
+}
+
 module batteryholder(){
     translate([7.5,0,6.5])cube([1.5,4,13],center=true);
     translate([-7.5,0,6.5])cube([1.5,4,13],center=true);
@@ -280,9 +349,10 @@ module ledholder(){
         union(){
             cylinder(d=7,h=10,center=true,$fn=20);
             translate([-2.5,0,0])cube([5,7,10], center=true);
+            cylinder(d=6,h=15,center=true,$fn=40);
         }
         cylinder(d=5,h=20,center=true,$fn=30);
-        translate([-2.5,0,0])cube([5,5,10], center=true);
+        translate([-3,0,0])cube([6,5,10], center=true);
         translate([25,0,-10])rotate([0,45,0])cube([50,50,50], center=true);
      }
 }
@@ -291,4 +361,50 @@ module cutoutforled(){
      translate([0,0,-0])cylinder(d=3.3,h=5,$fn=30, center=true);
      translate([0,0,-1.5])cylinder(d2=3.3,d1=5,h=1.2,$fn=40);
      translate([0,0,-3.5])cylinder(d=5,h=2,$fn=40);
+}
+
+module microdipswitch(){
+    color([0.2,0.2,0.2]){ 
+     translate([0,0,-3.5/2])cube([6,6,3.5], center=true);
+     cylinder(d=4, h=2,center=true);
+    }
+}
+
+module hole_microdipswitch(){
+    
+     hull(){ 
+         translate([0,0,-3/2])cube([6.3,6.3,3], center=true);
+         translate([0,0,-4])cube([6.3,11,3], center=true);
+     }
+     cylinder(d=5, h=2,center=true);
+     translate([0,0,1.3])cylinder(d1=5, d2=12,h=2,center=true);
+    
+}
+
+
+module handsupport() {
+// extendable hand support / sticks cover
+    difference(){
+        union(){
+            hull(){
+                cylinder(d=20,h=50,center=true);
+                translate([25,0,0])cylinder(d=20,h=50,center=true);
+            }
+            hull(){
+                difference(){
+                    translate([20,-45,0])cylinder(d=30,h=50,center=true);
+                    translate([-0,-40,0])cube([30,40,55],center=true);
+                }
+                
+                translate([25,0,0])cylinder(d=20,h=50,center=true);
+                translate([15,-55,0])cylinder(d=10,h=50,center=true);
+                translate([20,0,0])cylinder(d=20,h=50,center=true);
+            }
+        }
+        translate([0,0,-5])cube([60,20,45],center=true);
+        translate([0,0,-0.4])cube([60,110,45],center=true);
+        
+        translate([0,-18,-17])rotate([0,90,0])cylinder(d=10,h=110);
+    }
+
 }

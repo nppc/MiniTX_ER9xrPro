@@ -99,8 +99,6 @@ Text GLabel 8750 2500 2    60   Input ~ 0
 MODE_SWITCH_PIN
 Text GLabel 8750 2400 2    60   Input ~ 0
 PPM
-Text GLabel 8750 2200 2    60   Input ~ 0
-MULTIPROTOCOL_SWITCH_MODE_PIN
 Text GLabel 8750 2100 2    60   Input ~ 0
 Transmitter_MODE_LED
 Text GLabel 7350 3250 0    60   Input ~ 0
@@ -852,4 +850,47 @@ F 3 "" H 5050 1000 50  0001 C CNN
 $EndComp
 Wire Wire Line
 	5050 1000 4850 1000
+$Comp
+L SW_Push SW?
+U 1 1 590B8035
+P 9750 1100
+F 0 "SW?" H 9800 1200 50  0000 L CNN
+F 1 "MODE" H 9750 1040 50  0000 C CNN
+F 2 "" H 9750 1300 50  0001 C CNN
+F 3 "" H 9750 1300 50  0001 C CNN
+	1    9750 1100
+	1    0    0    -1  
+$EndComp
+$Comp
+L SW_Push SW?
+U 1 1 590B84BA
+P 9750 1450
+F 0 "SW?" H 9800 1550 50  0000 L CNN
+F 1 "MODEL" H 9750 1390 50  0000 C CNN
+F 2 "" H 9750 1650 50  0001 C CNN
+F 3 "" H 9750 1650 50  0001 C CNN
+	1    9750 1450
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	9950 1100 9950 1450
+$Comp
+L GND #PWR?
+U 1 1 590B8C35
+P 10150 1450
+F 0 "#PWR?" H 10150 1200 50  0001 C CNN
+F 1 "GND" H 10150 1300 50  0000 C CNN
+F 2 "" H 10150 1450 50  0001 C CNN
+F 3 "" H 10150 1450 50  0001 C CNN
+	1    10150 1450
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	9950 1450 10150 1450
+Text GLabel 9550 1100 0    60   Input ~ 0
+MODE_SWITCH_PIN
+Text GLabel 9550 1450 0    60   Input ~ 0
+MODEL_SWITCH_PIN
+Text Notes 8900 1750 0    60   ~ 0
+This button also swith \nprotocol (on startup)
 $EndSCHEMATC

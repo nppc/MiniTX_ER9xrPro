@@ -126,14 +126,15 @@ void setup() {
 
 	// check, do we have protocol change button pressed?
 	byte tmp = getLastEepromValue();
-	if (digitalRead(MULTIPROTOCOL_SWITCH_MODE_PIN)==LOW){
+	if (digitalRead(MODEL_SWITCH_PIN)==LOW){
 		// change protocol
 		tmp++;
 		if (tmp>3){tmp=1;}
 		storeLastEepromValue(tmp);
 		// TODO: in the future show message that protocol is changed
 		// wait untill button released
-		while (digitalRead(MULTIPROTOCOL_SWITCH_MODE_PIN)==LOW){}
+		while (digitalRead(MODEL_SWITCH_PIN)==LOW){}
+		delay(200); //software debounce
 	}
 	
 	// now lets set Multiprotocol encoder
