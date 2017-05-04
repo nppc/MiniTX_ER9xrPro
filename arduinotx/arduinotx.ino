@@ -110,24 +110,60 @@ volatile unsigned int PpmCopy_int[CHANNELS]; // pulse widths (microseconds)
 ** Arduino specific functions -----------------------------------------------------------------
 */
 
+ModelVarNames_str[] PROGMEM = {
+	"FRSKYX",
+	"FRSKYD",
+	"BAYANG",
+	"ERROR "};
+
 void setup() {
 	// hold Multiprotocol Arduino in RESET state while setting data
 	digitalWrite(MULTIPROTOCOL_RESET_PIN,LOW);
-	// now lets set Multiprotocol encoder
+
+	noInterrupts(); // No PPM signal until initialization complete
+	ArduinoTx_obj.Init();
+	interrupts();
+
+	// check, do we have protocol change button pressed?
 	byte tmp = getLastEepromValue();
+	if (digitalRead(MULTIPROTOCOL_SWITCH_MODE_PIN)==LOW){
+		// change protocol
+		tmp++;
+		if (tmp>3){tmp=1;}
+		storeLastEepromValue(tmp);
+		// TODO: in the future show message that protocol is changed
+		// wait untill button released
+		while (digitalRead(MULTIPROTOCOL_SWITCH_MODE_PIN)==LOW){}
+	}
+	
+	// now lets set Multiprotocol encoder
+	char var_str[7];
 	switch (tmp) {
 		case B00000001:	// Protocol 1 - FrSkyX
 			digitalWrite(MULTIPROTOCOL_CONTROL1_PIN,LOW);
 			digitalWrite(MULTIPROTOCOL_CONTROL1_PIN,HIGH);
+			getProgmemStrArrayValue(var_str, ModelVarNames_str, 0, 7);
+			break;
+		case B00000010:	// Protocol 2 - FrSkyD
+			digitalWrite(MULTIPROTOCOL_CONTROL1_PIN,HIGH);
+			digitalWrite(MULTIPROTOCOL_CONTROL1_PIN,LOW);
+			getProgmemStrArrayValue(var_str, ModelVarNames_str, 1, 7);
+			break;
+		case B00000011:	// Protocol 3 - Eachine H8
+			digitalWrite(MULTIPROTOCOL_CONTROL1_PIN,LOW);
+			digitalWrite(MULTIPROTOCOL_CONTROL1_PIN,LOW);
+			getProgmemStrArrayValue(var_str, ModelVarNames_str, 2, 7);
 			break;
 		default:
 			digitalWrite(MULTIPROTOCOL_CONTROL1_PIN,HIGH);
 			digitalWrite(MULTIPROTOCOL_CONTROL1_PIN,HIGH);
-			break;
+			getProgmemStrArrayValue(var_str, ModelVarNames_str, 3, 7);
 	}
-	noInterrupts(); // No PPM signal until initialization complete
-	ArduinoTx_obj.Init();
-	interrupts();
+	// boot Multiprotocol Arduino
+	digitalWrite(MULTIPROTOCOL_RESET_PIN,HIGH);
+	// TODO: show protocol name and wait 2 seconds var_str[7]
+	
+
 }
 
 /* serialEvent() occurs whenever a new data comes in the hardware serial RX. 

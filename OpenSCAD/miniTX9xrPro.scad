@@ -2,13 +2,23 @@
 // 1S battery for easy charging
 $fn=50;
 
+// CASE
 case_x=145;
 case_y=75;
 case_z=40;
 case_roundness=10;
 
+// GIMBAL
+// distance between holes 47mm (quadrat)
+ holedist=47; // distance between mounting holes
+ roundcutout=47.5; // diameter of round part that comes out of the case 
+ plate=54; // mounting plate size (where holes is)
+
+
+
 caseU();
 
+/*
 translate([case_x/2-11,-case_y/2+3,case_z/2-2])rotate([0,-90,0])rotate([0,0,90]){
     //antennacase();dipole();
     antennaholder();
@@ -18,21 +28,21 @@ translate([-case_x/2+11,-case_y/2+3,case_z/2-2])rotate([0,-90,0])rotate([0,0,90]
     antennaholder();
 }
 
+translate([-case_x/3,-case_y/2+2,0])rotate([90,90,0])switch();
+translate([case_x/3,-case_y/2+2,0])rotate([90,90,0])switch();
 
 
 translate([case_x/4-4,5,case_z/2-2.5])rotate([0,0,180])txgimbal();
 translate([-case_x/4+4,5,case_z/2-2.5])txgimbal();
 
-translate([-case_x/3.5,-case_y/2+10,case_z/2-20])rotate([90,90,0])cc2500();
-translate([case_x/4.8,-case_y/2+10,case_z/2-12])rotate([90,0,0])NRF24L01P();
+translate([-case_x/3.2,-case_y/2+13,case_z/2-25])rotate([90,0,0])cc2500();
+translate([case_x/4.6,-case_y/2+13,case_z/2-12])rotate([90,0,0])NRF24L01P();
 translate([-case_x/8,-case_y/2+10,case_z/2-20])rotate([90,90,0])arduinoMini();
 translate([case_x/2-24,-case_y/2+10,case_z/2-29])rotate([90,0,0])arduinoNano();
 
 translate([0,0,5])rotate([90,0,0])battery();
 translate([0,0,5-13])rotate([90,0,0])battery();
-
-
-
+*/
 module caseU(){
      difference(){
         union(){
@@ -48,11 +58,28 @@ module caseU(){
         translate([case_x/2-11,-case_y/2+3,case_z/2-2])rotate([0,-90,0])rotate([0,0,90])antennaholder_cutout();
         translate([-case_x/2+11,-case_y/2+3,case_z/2-2])rotate([0,-90,0])rotate([0,0,90])antennaholder_cutout();
         
-        //translate([case_x/4-4,5,case_z/2-2.5])rotate([0,0,180])txgimbal();
-        //translate([-case_x/4+4,5,case_z/2-2.5])txgimbal();
+        // cutouts for switches
+        translate([-case_x/3,-case_y/2+2,0])cube([3.5,5,7], center=true);
+        translate([case_x/3,-case_y/2+2,0])cube([3.5,5,7], center=true);
+        
+        //cutout for leds
+        translate([-case_x/2+7,-case_y/2+15,case_z/2-1])cutoutforled();
+        translate([case_x/4-4,5,case_z/2-2.5])cylinder(d=roundcutout+0.6,h=6,center=true);
+        translate([-case_x/4+4,5,case_z/2-2.5])cylinder(d=roundcutout+0.6,h=6,center=true);
+        
+       
 
-        translate([30,-50,0])cube([100,100,100]); // temp cut
+        
+        //translate([30,-30,0])cube([100,100,100]); // temp cut
     }
+    translate([-case_x/3,-case_y/2+2,0])rotate([90,90,0])switchholder();
+    translate([case_x/3,-case_y/2+2,0])rotate([90,90,0])switchholder();
+    // Battery holder
+    translate([0,-case_y/2+4,0])batteryholder();
+    translate([0,case_y/2-4,0])batteryholder();
+    // led holder
+    translate([-case_x/2+7,-case_y/2+15,case_z/2-2])ledholder();
+    
 }
 module caseL(){
     difference(){
@@ -100,10 +127,6 @@ module case_lower(x,y,z,r){
 
 module txgimbal(){
 // 9xr Pro gimbal dimensions
-// distance between holes 47mm (quadrat)
- holedist=47; // distance between mounting holes
- roundcutout=47.5; // diameter of round part that comes out of the case 
- plate=54; // mounting plate size (where holes is)
 
  color("LIGHTGRAY"){
     difference(){
@@ -217,4 +240,55 @@ module antennacutout(){
 module antennaholder_cutout(){
         translate([2,0,0])rotate([0,90,0])cylinder(d=9,h=12, center=true);
         translate([5,0,0])sphere(d=9,$fn=20);
+}
+
+
+module switch(){
+color([0.2,0.2,0.2]){
+    translate([0,0,-2.5])cube([11,5.5,5], center=true);
+    translate([1.5,0,2])cube([3,3,4], center=true);
+    difference(){
+        translate([0,0,-0.1])cube([11+8,5,0.2], center=true);
+        translate([15/2,0,0])cylinder(d=2.2,h=1, center=true, $fn=15);
+        translate([-15/2,0,0])cylinder(d=2.2,h=1, center=true, $fn=15);
+    }
+    translate([0,0,-7])cube([0.3,1.8,4], center=true);
+    translate([4,0,-7])cube([0.3,1.8,4], center=true);
+    translate([-4,0,-7])cube([0.3,1.8,4], center=true);
+}
+}
+
+module switchholder(){
+    difference(){ 
+        translate([-3.25,0,-2])cube([13/2,8,4],center=true);
+        cube([11.5,5.7,10],center=true);
+        cube([20,5.5,0.8],center=true);
+    }
+    translate([-7,-3.5,-2])cube([13,1,4],center=true);
+    translate([-7,3.5,-2])cube([13,1,4],center=true);
+}
+
+module batteryholder(){
+    translate([7.5,0,6.5])cube([1.5,4,13],center=true);
+    translate([-7.5,0,6.5])cube([1.5,4,13],center=true);
+    translate([0,0,12.8])cube([16.5,4,2],center=true);
+}
+
+
+module ledholder(){
+     translate([0,0,-5])difference(){
+        union(){
+            cylinder(d=7,h=10,center=true,$fn=20);
+            translate([-2.5,0,0])cube([5,7,10], center=true);
+        }
+        cylinder(d=5,h=20,center=true,$fn=30);
+        translate([-2.5,0,0])cube([5,5,10], center=true);
+        translate([25,0,-10])rotate([0,45,0])cube([50,50,50], center=true);
+     }
+}
+
+module cutoutforled(){
+     translate([0,0,-0])cylinder(d=3.3,h=5,$fn=30, center=true);
+     translate([0,0,-1.5])cylinder(d2=3.3,d1=5,h=1.2,$fn=40);
+     translate([0,0,-3.5])cylinder(d=5,h=2,$fn=40);
 }
