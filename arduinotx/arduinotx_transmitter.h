@@ -54,7 +54,8 @@ Contact information: http://www.reseau.org/arduinorc/index.php?n=Main.Contact
 // 	Potentiometer 1 is connected to A0, pot 2 to A1, ... pot 8 to A7
 // 	Switch 1 is connected to D2, switch 2 to D3, ... switch 6 to D7
 // 	You can rewrite these macros if you want different pin assignements
-#define get_pot_pin(icn) (icn - 1)
+// NPPC here we remap A4 to A6, because we want to use i2c...
+#define get_pot_pin(icn) (icn==5 ? 6:icn - 1)
 #define get_switch_pin(icn) (icn + 1)
 
 // Access the calibration value for given potentiometer

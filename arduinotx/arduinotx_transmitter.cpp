@@ -118,6 +118,9 @@ void ArduinoTx::Init() {
 #ifndef BATCHECK_ENABLED // BATCHECK_PIN is A7
 	pinMode(BATCHECK_PIN, INPUT_PULLUP);
 #endif
+
+/*
+//We will use all Ax pins. A0-A3 - Gimbals, A4,A5 - I2C, A6 - Ch5
 #if NPOTS <= 6	
 	pinMode(A6, INPUT_PULLUP);
 #endif
@@ -139,6 +142,7 @@ void ArduinoTx::Init() {
 #if NPOTS == 0	
 	pinMode(A0, INPUT_PULLUP);
 #endif
+*/
 	
 	if (Eeprom_obj.CheckEEProm() > 0) {
 		load_settings();
