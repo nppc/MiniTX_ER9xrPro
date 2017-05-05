@@ -79,7 +79,7 @@ Text GLabel 7350 2750 0    60   Input ~ 0
 POT3
 Text GLabel 7350 2850 0    60   Input ~ 0
 POT4
-Text GLabel 7350 2950 0    60   Input ~ 0
+Text GLabel 7350 3150 0    60   Input ~ 0
 CH5
 Text GLabel 8750 3350 2    60   Input ~ 0
 SW1
