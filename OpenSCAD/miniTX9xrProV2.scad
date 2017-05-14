@@ -1,6 +1,6 @@
 // mini transmitter with 9xr pro gimbals
 // 1S battery for easy charging
-$fn=20;
+$fn=30;
 
 // CASE (upper wall 3mm, sides 2mm)
 case_x=145;
@@ -14,15 +14,13 @@ case_roundness=10;
  roundcutout=47.5; // diameter of round part that comes out of the case 
  plate=54; // mounting plate size (where holes is)
 
-//antennaholder();
-
 
 difference(){
     union(){
         caseU();
-        caseL();
+        //caseL();
     }
-    translate([53,case_y/2-0.3,-4])rotate([90,0,180])linear_extrude(height = 1){text("mini-TX", $fn = 20, size = 18, font = "ArialBlack");}
+    //translate([53,case_y/2-0.3,-4])rotate([90,0,180])linear_extrude(height = 1){text("mini-TX", $fn = 20, size = 18, font = "ArialBlack");}
 }
 
 
@@ -59,12 +57,14 @@ module caseU(){
                  translate([0,0,-1])case_upper(case_x-4,case_y-4,case_z-3,case_roundness-4);
             }
             translate([0,-case_y/2+case_roundness/2-0.5,case_z/2-case_roundness/2])case_antennacutout();
+            // meat for antenna holder (bottom)
+            translate([case_x/2-11,-case_y/2+7,case_z/2-case_roundness/2])cube([8,8,5],center=true);
 
         }
         // antenna cut
         translate([0,-case_y/2+3,case_z/2-3])rotate([0,90,0])antennacutout();
-        translate([case_x/2-11,-case_y/2+3,case_z/2-2])rotate([0,-90,0])rotate([0,0,90])antennaholder_cutout();
-        translate([-case_x/2+11,-case_y/2+3,case_z/2-2])rotate([0,-90,0])rotate([0,0,90])antennaholder_cutout();
+        //translate([case_x/2-11,-case_y/2+3,case_z/2-2])rotate([0,-90,0])rotate([0,0,90])antennaholder_cutout();
+        //translate([-case_x/2+11,-case_y/2+3,case_z/2-2])rotate([0,-90,0])rotate([0,0,90])antennaholder_cutout();
         
         // cutouts for switches
         translate([-case_x/3,-case_y/2+2,0])cube([3.5,5,7], center=true);
@@ -100,6 +100,7 @@ module caseU(){
         //cutout for hand holder
         translate([-case_x/2,case_y/2-10,0])cube([4,30,100],center=true);
         translate([case_x/2,case_y/2-10,0])cube([4,30,100],center=true);
+        /*
         // Model (M) text
         translate([4.6,-15,case_z/2-0.3])rotate([0,0,180])linear_extrude(height = 1){text("M", $fn = 20, size = 7, font = "ArialBlack");}
         // Config (C) text
@@ -110,6 +111,7 @@ module caseU(){
         translate([case_x/3-6,-case_y/2+0.3,7])rotate([90,0,0])linear_extrude(height = 1){text("ON", $fn = 20, size = 5, font = "ArialBlack");}
         translate([-case_x/3-6,-case_y/2+0.3,7])rotate([90,0,0])linear_extrude(height = 1){text("ON", $fn = 20, size = 5, font = "ArialBlack");}
 
+        */
         //translate([30,-30,0])cube([100,100,100]); // temp cut
     }
     
@@ -120,11 +122,11 @@ module caseU(){
     translate([0,-case_y/2+4,0])batteryholder();
     translate([0,case_y/2-4,0])batteryholder();
     // led holder
-    translate([-case_x/2+7,-case_y/2+15.5,case_z/2-2])ledholder();
-    translate([-case_x/3,-case_y/2+11,case_z/2-2])rotate([0,0,90])ledholder();
-    translate([case_x/2-7,-case_y/2+15.5,case_z/2-2])rotate([0,0,180])ledholder();
-    translate([case_x/3,-case_y/2+11,case_z/2-2])rotate([0,0,90])ledholder();
-    translate([0,5,case_z/2-2])powerswitchholder();
+    //translate([-case_x/2+7,-case_y/2+15.5,case_z/2-2])ledholder();
+    //translate([-case_x/3,-case_y/2+11,case_z/2-2])rotate([0,0,90])ledholder();
+    //translate([case_x/2-7,-case_y/2+15.5,case_z/2-2])rotate([0,0,180])ledholder();
+    //translate([case_x/3,-case_y/2+11,case_z/2-2])rotate([0,0,90])ledholder();
+    //translate([0,5,case_z/2-2])powerswitchholder();
     
     // reinforce for cutout handholder
     translate([-case_x/2+2.75,case_y/2-15.5,36/4])cube([1.5,26,36/2],center=true);
@@ -132,12 +134,12 @@ module caseU(){
 
 
     translate([case_x/2-11,-case_y/2+3,case_z/2-2])rotate([0,-90,0])rotate([0,0,90]){
-        //antennacase();dipole();
-        antennaholder();
+        antennacase();dipole();
+        //antennaholder();
     }
     translate([-case_x/2+11,-case_y/2+3,case_z/2-2])rotate([0,-90,0])rotate([0,0,90]){
         //antennacase();dipole();
-        antennaholder();
+        //antennaholder();
     }
 
 }
@@ -324,8 +326,8 @@ module antennacase(){
         union(){
             rotate([0,90,0])cylinder(d=8,h=5,center=true);
             translate([4,0,0])rotate([0,90,0])cylinder(d=6.5,h=3,center=true,$fn=$fn/2);
-            translate([4+1.75,0,0])rotate([0,90,0])cylinder(d1=6.5,d2=7,h=0.5,center=true,$fn=$fn/2);
-            translate([4+2.5,0,0])rotate([0,90,0])cylinder(d1=7,d2=6,h=1,center=true,$fn=$fn/2);
+            translate([4+1.75,0,0])rotate([0,90,0])cylinder(d1=6.5,d2=8,h=1,center=true,$fn=$fn/2);
+            translate([4+3.25,0,0])rotate([0,90,0])cylinder(d=8,h=2,center=true,$fn=$fn/2);
             difference(){
             translate([-0.5,0,0])cylinder(d=6,h=60,$fn=$fn/2);
             translate([-3.5,-5,-0.5])cube([1,10,61]);
