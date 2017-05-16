@@ -34,7 +34,7 @@ translate([-case_x/2+11,-case_y/2+3,case_z/2-2])rotate([0,0,90]){
 
 
 
-rotate([-180,0,0])rotate([0,90,180])translate([10,23,48.6])rotate([0,0,0])handsupport();
+rotate([-180,0,0])rotate([0,90,180])translate([10,23,48.6])rotate([0,0,180])handsupport();
 
 translate([-case_x/4+4,5,case_z/2-2.5])txgimbal();
 /*
@@ -489,7 +489,7 @@ module handsupport() {
                 translate([20,0,0])cylinder(d=20,h=50,center=true);
             }
         }
-        translate([0,0,-5])cube([65,25,45],center=true);
+        translate([0,0,-5])cube([63,30,54.2],center=true);
         translate([0,0,-0.4])cube([60,110,45],center=true);
         
         translate([0,-18,-17])rotate([0,90,0])cylinder(d=10,h=110);
