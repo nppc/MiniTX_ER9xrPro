@@ -19,8 +19,8 @@ case_roundness=10;
 difference(){
     union(){
         //caseTop();
-        caseMiddle();
-        //caseBottom();
+        //caseMiddle();
+        caseBottom();
 
     translate([case_x/2-11,-case_y/2+3,case_z/2-2])rotate([0,0,90]){
         //rotate([-90,0,0]){antennacase();dipole();}
@@ -32,7 +32,6 @@ difference(){
     }
 
     }
-    translate([53,case_y/2-0.3,-4])rotate([90,0,180])linear_extrude(height = 1){text("mini-TX", $fn = 20, size = 18, font = "ArialBlack");}
 }
 
 
@@ -70,6 +69,11 @@ module caseTop() {
                  case_upper(case_x,case_y,case_z,case_roundness);
                  translate([0,0,-1])case_upper(case_x-4,case_y-4,case_z-3,case_roundness-4);
             }
+            // Model (M) text
+            translate([4.6,-15,case_z/2-0.3])rotate([0,0,180])linear_extrude(height = 1){text("M", $fn = 20, size = 7, font = "ArialBlack");}
+            // Config (C) text
+            translate([3.8,32,case_z/2-0.3])rotate([0,0,180])linear_extrude(height = 1){text("C", $fn = 20, size = 7, font = "ArialBlack");}
+
         }
         // antenna cut
         translate([0,-case_y/2+3,case_z/2-3])rotate([0,90,0])antennacutout();
@@ -107,15 +111,12 @@ module caseTop() {
         translate([-case_x/2,case_y/2-10,0])cube([4,30,100],center=true);
         translate([case_x/2,case_y/2-10,0])cube([4,30,100],center=true);
         
-        // Model (M) text
-        translate([4.6,-15,case_z/2-0.3])rotate([0,0,180])linear_extrude(height = 1){text("M", $fn = 20, size = 7, font = "ArialBlack");}
-        // Config (C) text
-        translate([3.8,32,case_z/2-0.3])rotate([0,0,180])linear_extrude(height = 1){text("C", $fn = 20, size = 7, font = "ArialBlack");}
 
-    translate([0,0,-2.525])cube([case_x+1,case_y+1,case_z], center=true);
+    translate([0,0,-2.50])cube([case_x+1,case_y+1,case_z], center=true);
         
     translate([18,case_y/2-4,0])screwheadcut();
     translate([-18,case_y/2-4,0])screwheadcut();
+
     translate([case_x/2-6,case_y/2-4.5,0])screwheadcut();
     translate([-case_x/2+6,case_y/2-4.5,0])screwheadcut();
         
@@ -123,7 +124,10 @@ module caseTop() {
     translate([-18,-case_y/2+9,0])screwheadcut();
         
 
+    //reinforcements for join top/middle parts
+    translate([-case_x/2+3,0,case_z/2-5.025])translate([1,0,3])cube([1.4,20.4,2], center=true);
 
+    translate([case_x/2-3,0,case_z/2-5.025])rotate([0,0,180])        translate([1,0,3])cube([1.4,20.4,2], center=true);
 
     }
 
@@ -150,7 +154,8 @@ module caseMiddle(){
             // reinforce for cutout handholder
             translate([-case_x/2+2.75,case_y/2-15.5,0])cube([1.5,26,36],center=true);
             translate([case_x/2-2.75,case_y/2-15.5,0])cube([1.5,26,36],center=true);
-
+       
+            texts();
         }
         // antenna cut
         translate([0,-case_y/2+3,case_z/2-3])rotate([0,90,0])antennacutout();
@@ -166,10 +171,6 @@ module caseMiddle(){
         translate([-case_x/2,case_y/2-10,0])cube([4,30,100],center=true);
         translate([case_x/2,case_y/2-10,0])cube([4,30,100],center=true);
 
-        // ON text
-        translate([case_x/3-6,-case_y/2+0.3,7])rotate([90,0,0])linear_extrude(height = 1){text("ON", $fn = 20, size = 5, font = "ArialBlack");}
-        translate([-case_x/3-6,-case_y/2+0.3,7])rotate([90,0,0])linear_extrude(height = 1){text("ON", $fn = 20, size = 5, font = "ArialBlack");}
-
         // cutouts for switches
         translate([-case_x/3,-case_y/2+2,0])cube([3.5,5,7], center=true);
         translate([case_x/3,-case_y/2+2,0])cube([3.5,5,7], center=true);
@@ -179,21 +180,7 @@ module caseMiddle(){
 
         //cutout for serial interface 5 pin header
         translate([0,case_y/2-2,-case_z/2+4])cube([13,6,3], center=true);
-        
-        // OFF text
-        translate([case_x/3-7.5,-case_y/2+0.3,-12])rotate([90,0,0])linear_extrude(height = 1){text("OFF", $fn = 20, size = 5, font = "ArialBlack");}
-        translate([-case_x/3-7.5,-case_y/2+0.3,-12])rotate([90,0,0])linear_extrude(height = 1){text("OFF", $fn = 20, size = 5, font = "ArialBlack");}
-     
-        // polarity (-+-) text
-        translate([-4.7,-case_y/2+0.3,-13])rotate([90,0,0])linear_extrude(height = 1){text("-+-", $fn = 20, size = 5, font = "ArialBlack");}
-        // Charge (CHARGE 1S) text
-        translate([-17,-case_y/2+0.3,-7])rotate([90,0,0])linear_extrude(height = 1){text("CHARGE 1S", $fn = 20, size = 4, font = "ArialBlack");}
-        
-        // Serial (Rx Tx GND Tx Rx) Text
-        translate([32,case_y/2-0.3,-12])rotate([90,0,180])linear_extrude(height = 1){text("Rx Tx GND Tx Rx", $fn = 20, size = 5, font = "ArialBlack");}
-
-        // 3.3v text
-        translate([-50,case_y/2-0.3,-12])rotate([90,0,180])linear_extrude(height = 1){text("3.3v", $fn = 20, size = 5, font = "ArialBlack");}
+       
 
 
         translate([0,0,case_z-2.525])cube([case_x+1,case_y+1,case_z], center=true); // temp cut
@@ -217,23 +204,31 @@ module caseMiddle(){
     // case screws holders
     translate([18,case_y/2-4,9.975])case_mountinghole();
     translate([-18,case_y/2-4,9.975])case_mountinghole();
-    translate([18,case_y/2-4,-9.975])rotate([0,180,0])case_mountinghole();
-    translate([-18,case_y/2-4,-9.975])rotate([0,180,0])case_mountinghole();
+    
     
     translate([18,-case_y/2+9,9.975])case_mountingholefront();
     translate([-18,-case_y/2+9,9.975])case_mountingholefront();
-    translate([18,-case_y/2+4,-9.975])rotate([0,180,180])case_mountinghole();
-    translate([-18,-case_y/2+4,-9.975])rotate([0,180,180])case_mountinghole();
-
     
     translate([case_x/2-6,case_y/2-4.5,9.975])case_mountinghole_corner();
     translate([-case_x/2+6,case_y/2-4.5,9.975])rotate([0,0,90])case_mountinghole_corner();
+    
+
+    // bottom screws sockets
+    translate([18,case_y/2-4,-9.975])rotate([0,180,0])case_mountinghole();
+    translate([-18,case_y/2-4,-9.975])rotate([0,180,0])case_mountinghole();
+
+    translate([18,-case_y/2+4,-9.975])rotate([0,180,180])case_mountinghole();
+    translate([-18,-case_y/2+4,-9.975])rotate([0,180,180])case_mountinghole();
+
     translate([-case_x/2+6,case_y/2-4.5,-9.975])rotate([0,180,0])case_mountinghole_corner();
     translate([case_x/2-6,case_y/2-4.5,-9.975])rotate([0,180,-90])case_mountinghole_corner();
-    
-    translate([case_x/2-6,-case_y/2+4.5,-9.975])rotate([0,180,180])case_mountinghole_corner();
-    translate([-case_x/2+6,-case_y/2+4.5,-9.975])rotate([0,180,90])case_mountinghole_corner();
 
+    translate([case_x/2-5,-case_y/2+5,-9.975])rotate([0,180,180])case_mountinghole_corner();
+    translate([-case_x/2+5,-case_y/2+5,-9.975])rotate([0,180,90])case_mountinghole_corner();
+
+    //reinforcements for join top/middle parts
+    translate([-case_x/2+3,0,case_z/2-5.025])reinforcement();
+    translate([case_x/2-3,0,case_z/2-5.025])rotate([0,0,180])reinforcement();
 
 }
 
@@ -249,10 +244,25 @@ module caseBottom(){
         translate([case_x/2,case_y/2-10,0])cube([4,30,100],center=true);
 
         // main cut
-        translate([0,0,2.525])cube([case_x+1,case_y+1,case_z], center=true);
+        translate([0,0,2.5])cube([case_x+1,case_y+1,case_z], center=true);
       
                 // BIND text
         translate([-23,case_y/3,-case_z/2+0.6])rotate([180,0,0])linear_extrude(height = 1){text("BIND", $fn = 20, size = 12, font = "ArialBlack");}
+
+
+        // holes for screws
+        translate([18,case_y/2-4,0])rotate([0,180,0])screwheadcut();
+        translate([-18,case_y/2-4,0])rotate([0,180,0])screwheadcut();
+
+        translate([18,-case_y/2+4,0])rotate([0,180,180])screwheadcut();
+        translate([-18,-case_y/2+4,0])rotate([0,180,180])screwheadcut();
+
+        translate([-case_x/2+6,case_y/2-4.5,0])rotate([0,180,0])screwheadcut();
+        translate([case_x/2-6,case_y/2-4.5,0])rotate([0,180,-90])screwheadcut();
+
+        translate([case_x/2-5,-case_y/2+5,0])rotate([0,180,180])screwheadcut();
+        translate([-case_x/2+5,-case_y/2+5,0])rotate([0,180,90])screwheadcut();
+            
 
     }
 
@@ -603,9 +613,6 @@ module screwheadcut(){
     }
 }
 
-translate([-case_x/2+3,0,case_z/2-5.025])reinforcement();
-translate([case_x/2-3,0,case_z/2-5.025])rotate([0,0,180])reinforcement();
-
 module reinforcement() {
 difference(){
     union(){
@@ -614,4 +621,27 @@ difference(){
     }
     translate([3,0,-5])rotate([0,45,0])cube([10,22,10], center=true);
 }
+}
+
+module texts(){
+    // ON text
+    translate([case_x/3-6,-case_y/2+0.6,7])rotate([90,0,0])linear_extrude(height = 1){text("ON", $fn = 20, size = 5, font = "ArialBlack");}
+    translate([-case_x/3-6,-case_y/2+0.6,7])rotate([90,0,0])linear_extrude(height = 1){text("ON", $fn = 20, size = 5, font = "ArialBlack");}
+
+    // OFF text
+    translate([case_x/3-7.5,-case_y/2+0.6,-12])rotate([90,0,0])linear_extrude(height = 1){text("OFF", $fn = 20, size = 5, font = "ArialBlack");}
+    translate([-case_x/3-7.5,-case_y/2+0.6,-12])rotate([90,0,0])linear_extrude(height = 1){text("OFF", $fn = 20, size = 5, font = "ArialBlack");}
+
+    // polarity (-+-) text
+    translate([-4.7,-case_y/2+0.6,-13])rotate([90,0,0])linear_extrude(height = 1){text("-+-", $fn = 20, size = 5, font = "ArialBlack");}
+    // Charge (CHARGE 1S) text
+    translate([-17,-case_y/2+0.6,-7])rotate([90,0,0])linear_extrude(height = 1){text("CHARGE 1S", $fn = 20, size = 4, font = "ArialBlack");}
+
+    // Serial (Rx Tx GND Tx Rx) Text
+    translate([32,case_y/2-0.6,-12])rotate([90,0,180])linear_extrude(height = 1){text("Rx Tx GND Tx Rx", $fn = 20, size = 5, font = "ArialBlack");}
+
+    // 3.3v text
+    translate([-50,case_y/2-0.6,-12])rotate([90,0,180])linear_extrude(height = 1){text("3.3v", $fn = 20, size = 5, font = "ArialBlack");}
+
+    translate([53,case_y/2-0.6,-4])rotate([90,0,180])linear_extrude(height = 1){text("mini-TX", $fn = 20, size = 18, font = "ArialBlack");}
 }
