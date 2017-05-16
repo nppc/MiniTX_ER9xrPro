@@ -16,31 +16,30 @@ case_roundness=10;
 
 
 
-difference(){
-    union(){
-        //caseTop();
-        //caseMiddle();
-        caseBottom();
+caseTop();
+caseMiddle();
+caseBottom();
+//rotate([0,-90,0]){antennacase();translate([0,15,0])antennacase();}
+//rotate([0,-90,0]){antennamountcoverfull();translate([0,0,10])antennamountcoverfull();}
 
-    translate([case_x/2-11,-case_y/2+3,case_z/2-2])rotate([0,0,90]){
-        //rotate([-90,0,0]){antennacase();dipole();}
-        //antennamountcoverfull();
-    }
-    translate([-case_x/2+11,-case_y/2+3,case_z/2-2])rotate([0,0,90]){
-        //rotate([90,0,0]){antennacase();dipole();}
-        //antennamountcover();
-    }
 
-    }
+translate([case_x/2-11,-case_y/2+3,case_z/2-2])rotate([0,0,90]){
+    //rotate([-90,0,0]){antennacase();dipole();}
+    //antennamountcoverfull();
+}
+translate([-case_x/2+11,-case_y/2+3,case_z/2-2])rotate([0,0,90]){
+    rotate([90,0,0]){antennacase();dipole();}
+    antennamountcoverfull();
 }
 
 
-//rotate([-180,0,0])rotate([0,90,180])translate([10,23,48.6])rotate([0,0,10])handsupport();
 
+rotate([-180,0,0])rotate([0,90,180])translate([10,23,48.6])rotate([0,0,0])handsupport();
 
+translate([-case_x/4+4,5,case_z/2-2.5])txgimbal();
 /*
 translate([case_x/4-4,5,case_z/2-2.5])rotate([0,0,180])txgimbal();
-translate([-case_x/4+4,5,case_z/2-2.5])txgimbal();
+
 
 
 
@@ -490,7 +489,7 @@ module handsupport() {
                 translate([20,0,0])cylinder(d=20,h=50,center=true);
             }
         }
-        translate([0,0,-5])cube([60,20,45],center=true);
+        translate([0,0,-5])cube([65,25,45],center=true);
         translate([0,0,-0.4])cube([60,110,45],center=true);
         
         translate([0,-18,-17])rotate([0,90,0])cylinder(d=10,h=110);
@@ -617,7 +616,7 @@ module reinforcement() {
 difference(){
     union(){
         translate([0,0,0])cube([3,20,5], center=true);
-        translate([1,0,3])cube([1,20,2], center=true);
+        translate([1,0,2.5])cube([1,20,2], center=true);
     }
     translate([3,0,-5])rotate([0,45,0])cube([10,22,10], center=true);
 }
