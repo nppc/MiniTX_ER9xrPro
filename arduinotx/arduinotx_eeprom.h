@@ -125,22 +125,22 @@ extern const char Gvn_ICT[] PROGMEM,	Gvn_ICN[] PROGMEM, Gvn_REV[] PROGMEM, Gvn_D
 
 class ArduinotxEeprom {
 	private:
-		static PGM_P GlobalVarNames_str[] PROGMEM;
+		//PGM_P GlobalVarNames_str[] PROGMEM;
 		static const byte GlobalVarSize_byt[] PROGMEM;
 		static const byte GlobalVarType_byt[] PROGMEM;
 		static const int GlobalVarDefault_int[] PROGMEM;
 		
-		static PGM_P ModelVarNames_str[] PROGMEM;
+		//PGM_P ModelVarNames_str[] PROGMEM;
 		static const byte ModelVarSize_byt[] PROGMEM;
 		static const byte ModelVarType_byt[] PROGMEM;
 		static const int ModelVarDefault_int[] PROGMEM;
 	
-		static PGM_P MixerVarNames_str[] PROGMEM;
+		//PGM_P MixerVarNames_str[] PROGMEM;
 		static const byte MixerVarSize_byt[] PROGMEM;
 		static const byte MixerVarType_byt[] PROGMEM;
 		static const int MixerVarDefault_int[] PROGMEM;
 		
-		static const char *ChanVarNames_str[] PROGMEM;
+		const char *ChanVarNames_str[] PROGMEM;
 		static const byte ChanVarSize_byt[] PROGMEM;
 		static const byte ChanVarType_byt[] PROGMEM;
 		static const int ChanVarDefault_int[] PROGMEM;
@@ -162,5 +162,7 @@ class ArduinotxEeprom {
 		void GetGlobal(int out_global_int[]);
 		byte GetDataset(byte dataset_byt, int out_model_int[], int out_mixers_byt[][VARS_PER_MIXER], int out_channels_byt[][VARS_PER_CHANNEL]);
 		byte Serialize(byte dataset_byt, byte channel_byt);
+    byte getLastEepromValue();
+    void storeLastEepromValue(byte val);
 };
 #endif

@@ -23,7 +23,7 @@ const char BuzzerCharset_str[] PROGMEM = "BCPT0123456789";
 const char BuzzerMorse_B[] PROGMEM = "-..."; const char BuzzerMorse_C[] PROGMEM = "-.-."; const char BuzzerMorse_P[] PROGMEM = ".--."; const char BuzzerMorse_T[] PROGMEM = "-"; 
 const char BuzzerMorse_0[] PROGMEM = "-----"; const char BuzzerMorse_1[] PROGMEM = ".----"; const char BuzzerMorse_2[] PROGMEM = "..---"; const char BuzzerMorse_3[] PROGMEM = "...--"; const char BuzzerMorse_4[] PROGMEM = "....-";
 const char BuzzerMorse_5[] PROGMEM = "....."; const char BuzzerMorse_6[] PROGMEM = "-...."; const char BuzzerMorse_7[] PROGMEM = "--..."; const char BuzzerMorse_8[] PROGMEM = "---.."; const char BuzzerMorse_9[] PROGMEM = "----.";
-PGM_P BuzzerMorseCodes_str[] PROGMEM = {
+PGM_P const BuzzerMorseCodes_str[] PROGMEM = {
 	BuzzerMorse_B, BuzzerMorse_C, BuzzerMorse_P, BuzzerMorse_T,
 	BuzzerMorse_0, BuzzerMorse_1, BuzzerMorse_2, BuzzerMorse_3, BuzzerMorse_4, BuzzerMorse_5, BuzzerMorse_6, BuzzerMorse_7, BuzzerMorse_8, BuzzerMorse_9,
 	NULL

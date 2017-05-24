@@ -167,7 +167,7 @@ const char Cmd_ECHO[] PROGMEM = "ECHO"; const char Cmd_MODEL[] PROGMEM = "MODEL"
 const char Cmd_DUMP[] PROGMEM = "DUMP"; const char Cmd_PRINT[] PROGMEM = "PRINT"; 
 const char Cmd_QUMARK[] PROGMEM = "?"; 
 // Names of all commands in same order as enum CmdTokens
-PGM_P ArduinotxCmd::AllCommands_str[] PROGMEM = {
+PGM_P const AllCommands_str[] PROGMEM = {
 	Cmd_CHECK, Cmd_INIT, Cmd_ECHO, Cmd_MODEL, Cmd_DUMP, Cmd_PRINT, Cmd_QUMARK,
 	NULL
 };
@@ -209,7 +209,7 @@ ArduinotxCmd::CmdToken ArduinotxCmd::parse_command_line(const char *line_str, ch
 
 
 // Names of all variables that could be tested by validate_value()
-PGM_P ArduinotxCmd::AllVarNames_str[] PROGMEM= {
+PGM_P const AllVarNames_str[] PROGMEM= {
 	Gvn_TSC, Gvn_CDS, Gvn_ADS, Gvn_BAT, Gvn_THC, Gvn_N1M, Gvn_P1M, Gvn_N2M, Gvn_P2M, Gvn_ICT,
 	Gvn_ICN, Gvn_REV, Gvn_DUA, Gvn_EXP, Gvn_PWL, Gvn_PWH, Gvn_EPL, Gvn_EPH, Gvn_SUB,
 	Gvn_KL1, Gvn_KL2, Gvn_KL3, Gvn_KL4, Gvn_KL5, Gvn_KL6, Gvn_KL7, Gvn_KL8, 

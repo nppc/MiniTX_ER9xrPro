@@ -23,7 +23,7 @@ const char LedCharset_str[] PROGMEM = "BCPT0123456789";
 const char LedMorse_B[] PROGMEM = "-..."; const char LedMorse_C[] PROGMEM = "-.-."; const char LedMorse_P[] PROGMEM = ".--."; const char LedMorse_T[] PROGMEM = "-"; 
 const char LedMorse_0[] PROGMEM = "-----"; const char LedMorse_1[] PROGMEM = ".----"; const char LedMorse_2[] PROGMEM = "..---"; const char LedMorse_3[] PROGMEM = "...--"; const char LedMorse_4[] PROGMEM = "....-";
 const char LedMorse_5[] PROGMEM = "....."; const char LedMorse_6[] PROGMEM = "-...."; const char LedMorse_7[] PROGMEM = "--..."; const char LedMorse_8[] PROGMEM = "---.."; const char LedMorse_9[] PROGMEM = "----.";
-PGM_P LedMorseCodes_str[] PROGMEM = {
+PGM_P const LedMorseCodes_str[] PROGMEM = {
 	LedMorse_B, LedMorse_C, LedMorse_P, LedMorse_T,
 	LedMorse_0, LedMorse_1, LedMorse_2, LedMorse_3, LedMorse_4, LedMorse_5, LedMorse_6, LedMorse_7, LedMorse_8, LedMorse_9,
 	NULL

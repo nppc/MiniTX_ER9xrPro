@@ -95,7 +95,7 @@ const char Gvn_KL5[] PROGMEM = "KL5"; const char Gvn_KL6[] PROGMEM = "KL6"; cons
 const char Gvn_KH1[] PROGMEM = "KH1"; const char Gvn_KH2[] PROGMEM = "KH2"; const char Gvn_KH3[] PROGMEM = "KH3"; const char Gvn_KH4[] PROGMEM = "KH4"; 
 const char Gvn_KH5[] PROGMEM = "KH5"; const char Gvn_KH6[] PROGMEM = "KH6"; const char Gvn_KH7[] PROGMEM = "KH7"; const char Gvn_KH8[] PROGMEM = "KH8"; 
 //
-PGM_P ArduinotxEeprom::GlobalVarNames_str[] PROGMEM = {
+PGM_P const GlobalVarNames_str[] PROGMEM = {
 	Gvn_LIB, Gvn_VER, Gvn_CDS, Gvn_ADS, Gvn_TSC, Gvn_BAT,
 	Gvn_KL1, Gvn_KL2, Gvn_KL3, Gvn_KL4, Gvn_KL5, Gvn_KL6, Gvn_KL7, Gvn_KL8, 
 	Gvn_KH1, Gvn_KH2, Gvn_KH3, Gvn_KH4, Gvn_KH5, Gvn_KH6, Gvn_KH7, Gvn_KH8, 
@@ -134,7 +134,7 @@ const int ArduinotxEeprom::GlobalVarDefault_int[] PROGMEM = {IDLIB, VERLIB, 1, 1
 // Allocate Mixer variables base names in PROGMEM
 const char Gvn_NAM[] PROGMEM = "NAM"; const char Gvn_THC[] PROGMEM = "THC"; 
 //
-PGM_P ArduinotxEeprom::ModelVarNames_str[] PROGMEM = {
+PGM_P const ModelVarNames_str[] PROGMEM = {
 	Gvn_NAM, Gvn_THC,
 	NULL
 };
@@ -170,7 +170,7 @@ const int ArduinotxEeprom::ModelVarDefault_int[] PROGMEM = {'?', 3};
 // Allocate Mixer variables base names in PROGMEM
 const char Gvn_N1M[] PROGMEM = "N1M"; const char Gvn_P1M[] PROGMEM = "P1M"; const char Gvn_N2M[] PROGMEM = "N2M"; const char Gvn_P2M[] PROGMEM = "P2M"; 
 //
-PGM_P ArduinotxEeprom::MixerVarNames_str[] PROGMEM = {
+PGM_P const MixerVarNames_str[] PROGMEM = {
 	Gvn_N1M, Gvn_P1M, Gvn_N2M, Gvn_P2M,
 	NULL
 };
@@ -215,7 +215,7 @@ const char Gvn_ICT[] PROGMEM = "ICT"; const char Gvn_ICN[] PROGMEM = "ICN"; cons
 const char Gvn_DUA[] PROGMEM = "DUA"; const char Gvn_EXP[] PROGMEM = "EXP"; const char Gvn_PWL[] PROGMEM = "PWL"; const char Gvn_PWH[] PROGMEM = "PWH"; 
 const char Gvn_EPL[] PROGMEM = "EPL"; const char Gvn_EPH[] PROGMEM = "EPH"; const char Gvn_SUB[] PROGMEM = "SUB";
 //
-PGM_P ArduinotxEeprom::ChanVarNames_str[] PROGMEM = {
+PGM_P const ChanVarNames_str[] PROGMEM = {
 	Gvn_ICT, Gvn_ICN, Gvn_REV, Gvn_DUA, Gvn_EXP, Gvn_PWL, Gvn_PWH, Gvn_EPL, Gvn_EPH, Gvn_SUB,
 	NULL
 };
@@ -711,13 +711,13 @@ int ArduinotxEeprom::get_var_offset(byte dataset_byt, const char *var_str, byte 
 }
 
 
-byte getLastEepromValue(){
+byte ArduinotxEeprom::getLastEepromValue(){
 	byte tmp = EEPROM.read(lastEEPROMAddress);
-	if (tmp==255){tmp=B00000001} // if EEPROM is empty, then default protocol is 1 - FrSkyX
+	if (tmp==255){tmp=B00000001;} // if EEPROM is empty, then default protocol is 1 - FrSkyX
 	return tmp;
 }
 
-void storeLastEepromValue(byte val){
+void ArduinotxEeprom::storeLastEepromValue(byte val){
 	byte tmp = EEPROM.read(lastEEPROMAddress);
 	// store only if value is changed
 	if (tmp!=val){

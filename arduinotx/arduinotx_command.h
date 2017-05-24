@@ -38,8 +38,8 @@ class ArduinotxCmd {
 		
 		byte Echo_byt; // b2=echo command prompt, b1=echo replies, b0=echo input characters
 
-		static PGM_P AllCommands_str[] PROGMEM; // Names of all commands
-		static PGM_P AllVarNames_str[] PROGMEM; // Names of all variables that could be tested by validate_value()
+		//PGM_P const AllCommands_str[] PROGMEM; // Names of all commands
+		//PGM_P AllVarNames_str[] PROGMEM; // Names of all variables that could be tested by validate_value()
 		static const byte AllVarTests_byt[] PROGMEM; // Test number corresponding to variable name
 		char Cmdline_str[CMDLINESIZE + 1];
 		
