@@ -210,7 +210,7 @@ ArduinotxCmd::CmdToken ArduinotxCmd::parse_command_line(const char *line_str, ch
 
 // Names of all variables that could be tested by validate_value()
 PGM_P const AllVarNames_str[] PROGMEM= {
-	Gvn_TSC, Gvn_CDS, Gvn_ADS, Gvn_BAT, Gvn_THC, Gvn_N1M, Gvn_P1M, Gvn_N2M, Gvn_P2M, Gvn_ICT,
+	Gvn_TSC, Gvn_CDS, Gvn_ADS, Gvn_BAT, Gvn_THC, Gvn_PRT, Gvn_N1M, Gvn_P1M, Gvn_N2M, Gvn_P2M, Gvn_ICT,
 	Gvn_ICN, Gvn_REV, Gvn_DUA, Gvn_EXP, Gvn_PWL, Gvn_PWH, Gvn_EPL, Gvn_EPH, Gvn_SUB,
 	Gvn_KL1, Gvn_KL2, Gvn_KL3, Gvn_KL4, Gvn_KL5, Gvn_KL6, Gvn_KL7, Gvn_KL8, 
 	Gvn_KH1, Gvn_KH2, Gvn_KH3, Gvn_KH4, Gvn_KH5, Gvn_KH6, Gvn_KH7, Gvn_KH8, 
@@ -220,7 +220,7 @@ PGM_P const AllVarNames_str[] PROGMEM= {
 // Test number corresponding to variable name in AllVarNames_str[]
 // AllVarTests_byt[] must be declared at class level because pgm_read_byte() will return wrong value if AllVarTests_byt[] is declared inside validate_value()
 const byte ArduinotxCmd::AllVarTests_byt[] PROGMEM = {
-	9,6,6,8,7,4,2,4,2,3,
+	9,6,6,8,7,1,4,2,4,2,3,
 	4,0,1,1,5,5,1,1,2,
 	8,8,8,8,8,8,8,8,
 	8,8,8,8,8,8,8,8

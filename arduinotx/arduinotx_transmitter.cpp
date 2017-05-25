@@ -156,7 +156,8 @@ void ArduinoTx::Init() {
 		SettingsLoaded_bool = false;
 		TxAlarm_int = ALARM_EEPROM;  // clear by Reset of Arduino board
 	}
-
+	
+	
 	// configure Timer1 for PPM generation
 	TCCR1A = B00110001;	// COM1B1, COM1B0, WGM10 set to 1 (8-bit register)
 	TCCR1B = B00010010;	// WGM13 & CS11 set to 1 (8-bit register)
@@ -380,6 +381,39 @@ void ArduinoTx::load_settings() {
 	Eeprom_obj.GetGlobal(Global_int); // load values of GLOBAL_CDS and GLOBAL_ADS
 	CurrentDataset_byt = get_selected_dataset(); // Dataset (model number) currently loaded in RAM
 	Eeprom_obj.GetDataset(CurrentDataset_byt, DatasetModel_int, DatasetMixers_int, DatasetChannels_int);
+	
+	// hold Multiprotocol Arduino in RESET state while setting data
+	digitalWrite(MULTIPROTOCOL_RESET_PIN,LOW);
+	delay(100);
+	byte tx_protocol = get_model_var(MOD_PRT); // FRSKYX=1;FRSKYD=2;BAYANG=3;
+	// lets set Multiprotocol encoder. tx_protocol variable already initialized from EEPROM
+	//char var_str[7];
+	switch (tx_protocol) {
+		case B00000001:	// Protocol 1 - FrSkyX
+			digitalWrite(MULTIPROTOCOL_CONTROL1_PIN,LOW);
+			digitalWrite(MULTIPROTOCOL_CONTROL1_PIN,HIGH);
+			//getProgmemStrArrayValue(var_str, ModelVarNames_str, 0, 7);
+			break;
+		case B00000010:	// Protocol 2 - FrSkyD
+			digitalWrite(MULTIPROTOCOL_CONTROL1_PIN,HIGH);
+			digitalWrite(MULTIPROTOCOL_CONTROL1_PIN,LOW);
+			//getProgmemStrArrayValue(var_str, ModelVarNames_str, 1, 7);
+			break;
+		case B00000011:	// Protocol 3 - Eachine H8
+			digitalWrite(MULTIPROTOCOL_CONTROL1_PIN,LOW);
+			digitalWrite(MULTIPROTOCOL_CONTROL1_PIN,LOW);
+			//getProgmemStrArrayValue(var_str, ModelVarNames_str, 2, 7);
+			break;
+		default:
+			digitalWrite(MULTIPROTOCOL_CONTROL1_PIN,HIGH);
+			digitalWrite(MULTIPROTOCOL_CONTROL1_PIN,HIGH);
+			//getProgmemStrArrayValue(var_str, ModelVarNames_str, 3, 7);
+	}
+	// boot Multiprotocol Arduino
+	digitalWrite(MULTIPROTOCOL_RESET_PIN,HIGH);
+	// TODO: show protocol name and wait 2 seconds var_str[7]
+
+	
 }
 
 // set RunMode according to switches settings
@@ -617,8 +651,11 @@ void ArduinoTx::refresh_led_code() {
 #ifdef BUZZER_ENABLED
 		if (TxAlarm_int != ALARM_NONE)
 			Buzzer_obj.SetCode(ledcode_char, BUZZER_REPEAT, 400);
+		
 		else
-			Buzzer_obj.SetCode(ledcode_char, 3, 800);
+			// I want only hear Warning tones.
+			//	Buzzer_obj.SetCode(ledcode_char, 3, 800);
+			Buzzer_obj.Stop();
 #endif
 		Current_ledcode_char = ledcode_char;
 	}

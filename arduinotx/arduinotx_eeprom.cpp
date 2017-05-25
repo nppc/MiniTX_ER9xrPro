@@ -35,9 +35,6 @@ Contact information: http://www.reseau.org/arduinorc/index.php?n=Main.Contact
 // version of this library, used to test if the EEProm contains data from an older version
 #define VERLIB 15
 
-//NPPC we store here last used protocol number
-#define lastEEPROMAddress 1023	// NPPC atmega328 has 1k of EEPROM
-
 /* 
 EEPROM layout for 6 channels
 
@@ -45,21 +42,21 @@ EEPROM layout for 6 channels
 0000 - 0039	Global Variables, "LIB" must be at offset 0, "VER" at offset 1
 
 ------------------------ Dataset 1 -----------------------
-0040 - 0048	Model Variables (9 bytes)
+0040 - 0048	Model Variables (10 bytes)
 0049 - 0056	Mixers Variables ( 2 x 4 bytes)
 0057 - 0128	Channels Variables (6 x 12 bytes)
 	
 ------------------------ Dataset 2 -----------------------
-0129 - 0137	Model Variables (9 bytes)
+0129 - 0137	Model Variables (10 bytes)
 0138 - 0145	Mixers Variables( 2 x 4 bytes)
 0146 - 0217	Channels Variables (6 x 12 bytes)
 ...
 
 EEPROM usage = GLOBAL_BYTES + ( NDATASETS * (BYTES_PER_MODEL + (NMIXERS * BYTES_PER_MIXER) + (CHANNELS * BYTES_PER_CHANNEL)) )
-	6 channels: 9 datasets: 841 bytes	40+ 9 * (9 + (2*4) + (6*12))
-	7 channels: 9 datasets: 949 bytes	40 + 9 * (9 + (2*4) + (7*12))
-	8 channels: 8 datasets: 944 bytes	40 + 8 * (9 + (2*4) + (8*12))
-	9 channels: 7 datasets: 915 bytes	40 + 7 * (9 + (2*4) + (9*12))
+	6 channels: 8 datasets: 760 bytes	40 + 8 * (10 + (2*4) + (6*12))
+	7 channels: 8 datasets: 856 bytes	40 + 8 * (10 + (2*4) + (7*12))
+	8 channels: 7 datasets: 838 bytes	40 + 7 * (10 + (2*4) + (8*12))
+	9 channels: 6 datasets: 796 bytes	40 + 6 * (10 + (2*4) + (9*12))
 */
 
 /*
@@ -130,29 +127,30 @@ const int ArduinotxEeprom::GlobalVarDefault_int[] PROGMEM = {IDLIB, VERLIB, 1, 1
 // These variables contain per-model settings
 // NAM	model name, 8 chars, no spaces
 // THC	channel number used for throttle control, 0=no throttle channel
+// PRT	Protocol number used for controlling model (FrSky, FrSkyD, etc...). Number represents bits, sent to rotay encoder of module
 //
 // Allocate Mixer variables base names in PROGMEM
-const char Gvn_NAM[] PROGMEM = "NAM"; const char Gvn_THC[] PROGMEM = "THC"; 
+const char Gvn_NAM[] PROGMEM = "NAM"; const char Gvn_THC[] PROGMEM = "THC"; const char Gvn_PRT[] PROGMEM = "PRT"; 
 //
 PGM_P const ModelVarNames_str[] PROGMEM = {
-	Gvn_NAM, Gvn_THC,
+	Gvn_NAM, Gvn_THC, Gvn_PRT,
 	NULL
 };
 
 // type of values of the model variables:
 // a)rray of chars, b)yte, i)nt, s)hort : a short is a signed byte
-const byte ArduinotxEeprom::ModelVarType_byt[] PROGMEM = {'a','b'};
+const byte ArduinotxEeprom::ModelVarType_byt[] PROGMEM = {'a','b','b'};
 
 // size of values of the model variables
-const byte ArduinotxEeprom::ModelVarSize_byt[] PROGMEM = {8,1};
+const byte ArduinotxEeprom::ModelVarSize_byt[] PROGMEM = {8,1,1};
 
 // default values of the model variables used by InitEEProm()
 // NAM	a question mark
 // THC	chan 3
-const int ArduinotxEeprom::ModelVarDefault_int[] PROGMEM = {'?', 3};
+const int ArduinotxEeprom::ModelVarDefault_int[] PROGMEM = {'?', 3, 1};
 
 // total size of the values stored in each model  (sum of ModelVarSize_byt[])
-#define BYTES_PER_MODEL 9
+#define BYTES_PER_MODEL 10
 
 // see also VARS_PER_MODEL and symbolic names defined for the variables indexes in arduinotx_eeprom.h
 
@@ -708,19 +706,4 @@ int ArduinotxEeprom::get_var_offset(byte dataset_byt, const char *var_str, byte 
 		}
 	}
 	return retval_int;
-}
-
-
-byte ArduinotxEeprom::getLastEepromValue(){
-	byte tmp = EEPROM.read(lastEEPROMAddress);
-	if (tmp==255){tmp=B00000001;} // if EEPROM is empty, then default protocol is 1 - FrSkyX
-	return tmp;
-}
-
-void ArduinotxEeprom::storeLastEepromValue(byte val){
-	byte tmp = EEPROM.read(lastEEPROMAddress);
-	// store only if value is changed
-	if (tmp!=val){
-		EEPROM.write(lastEEPROMAddress, val);
-	}
 }

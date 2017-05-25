@@ -31,11 +31,11 @@ Contact information: http://www.reseau.org/arduinorc/index.php?n=Main.Contact
 
 // number of data sets (models) stored in EEProm
 #if CHANNELS == 9
-	#define NDATASETS 7
+	#define NDATASETS 6
 #elif CHANNELS == 8
-	#define NDATASETS 8
+	#define NDATASETS 7
 #else
-	#define NDATASETS 9
+	#define NDATASETS 8
 #endif
 
 // maximum length of var name
@@ -49,7 +49,7 @@ Contact information: http://www.reseau.org/arduinorc/index.php?n=Main.Contact
 #define GLOBAL_VARS 22
 
 // number of variables of each model (number of items in ModelVarNames_str[])
-#define VARS_PER_MODEL 2
+#define VARS_PER_MODEL 3
 
 // number of mixers defined in each dataset
 // if you need more mixers you can simply change this value
@@ -77,6 +77,7 @@ Contact information: http://www.reseau.org/arduinorc/index.php?n=Main.Contact
 // symbolic names defined for the model variables and their index in array ModelVarNames_str[]
 #define MOD_NAM 0
 #define MOD_THC 1
+#define MOD_PRT 2
 
 // symbolic names defined for the mixer variables and their index in array MixerVarNames_str[]
 #define MIX_N1M 0
@@ -112,7 +113,7 @@ extern const char Gvn_LIB[] PROGMEM, Gvn_VER[] PROGMEM, Gvn_CDS[] PROGMEM, Gvn_A
 	Gvn_KH1[] PROGMEM, Gvn_KH2[] PROGMEM, Gvn_KH3[] PROGMEM, Gvn_KH4[] PROGMEM, Gvn_KH5[] PROGMEM, Gvn_KH6[] PROGMEM, Gvn_KH7[] PROGMEM, Gvn_KH8[] PROGMEM;
 
 // Make Model variables names visible to other modules
-extern const char 	Gvn_NAM[] PROGMEM, Gvn_THC[] PROGMEM;
+extern const char 	Gvn_NAM[] PROGMEM, Gvn_THC[] PROGMEM, Gvn_PRT[] PROGMEM;
 
 // Make Mixer variables names visible to other modules
 extern const char 	Gvn_N1M[] PROGMEM, Gvn_P1M[] PROGMEM, Gvn_N2M[] PROGMEM, Gvn_P2M[] PROGMEM;
@@ -162,7 +163,5 @@ class ArduinotxEeprom {
 		void GetGlobal(int out_global_int[]);
 		byte GetDataset(byte dataset_byt, int out_model_int[], int out_mixers_byt[][VARS_PER_MIXER], int out_channels_byt[][VARS_PER_CHANNEL]);
 		byte Serialize(byte dataset_byt, byte channel_byt);
-    byte getLastEepromValue();
-    void storeLastEepromValue(byte val);
 };
 #endif
