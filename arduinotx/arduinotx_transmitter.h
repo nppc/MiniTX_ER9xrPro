@@ -86,6 +86,9 @@ class ArduinoTx {
 		//	closed		RUNMODE_COMMAND
 		RunMode RunMode_int;
 		
+		RunMode Last_runmode_int;
+		byte last_modeButton_state_bool; // last value of MODE button pin 
+		unsigned long modeButton_state_duration_lng; // timer value for MODE nutton
 		byte CurrentDataset_byt; // Dataset (model number) currently loaded in RAM
 		Alarm TxAlarm_int; // current alarm state
 		byte DualRate_bool; // true=dual rate ON

@@ -140,7 +140,7 @@ class ArduinotxEeprom {
 		static const byte MixerVarType_byt[] PROGMEM;
 		static const int MixerVarDefault_int[] PROGMEM;
 		
-		const char *ChanVarNames_str[] PROGMEM;
+		//const char *ChanVarNames_str[] PROGMEM;
 		static const byte ChanVarSize_byt[] PROGMEM;
 		static const byte ChanVarType_byt[] PROGMEM;
 		static const int ChanVarDefault_int[] PROGMEM;

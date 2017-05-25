@@ -80,6 +80,9 @@ ArduinoTx::ArduinoTx() {
 	//	closed		RUNMODE_COMMAND
 	RunMode_int = RUNMODE_INIT;
 
+	Last_runmode_int = RUNMODE_INIT;
+	last_modeButton_state_bool = true; // initial state if button (not pressed (pullup))
+	modeButton_state_duration_lng = millis();
 	CurrentDataset_byt = 0; // Dataset (model number) currently loaded in RAM
 	TxAlarm_int = ALARM_NONE; // current alarm state
 	DualRate_bool = true; // true=dual rate ON (NPPC will be never false)
@@ -383,13 +386,37 @@ void ArduinoTx::load_settings() {
 // MODE_SWITCH	RunMode
 //	opened		RUNMODE_TRANSMISSION
 //	closed		RUNMODE_COMMAND
+// behaviour of MODE switch us changed to the button. (if button pressed longer than 1 second, then mode is changed)
 // Return value: current run mode
 ArduinoTx::RunMode ArduinoTx::refresh_runmode() {
-	RunMode retval_int = RUNMODE_INIT;
-	static RunMode Last_runmode_int = RUNMODE_INIT;
+	RunMode retval_int = Last_runmode_int;
+	
 	
 	// read the mode switch
 	byte mode_switch_bool = digitalRead(MODE_SWITCH_PIN);
+	
+	// does button MODE pressed longer than 2 second?
+	// is button just pressed?
+	if (last_modeButton_state_bool!=mode_switch_bool && !mode_switch_bool){
+		// mode button is pressed, start timer
+		modeButton_state_duration_lng = millis();
+		last_modeButton_state_bool = mode_switch_bool;
+	} else if (last_modeButton_state_bool==mode_switch_bool && !mode_switch_bool){ // does button is still pressed
+		// check timer and update mode if more than 2 seconds passed
+		if (modeButton_state_duration_lng+2000 < millis()){
+			// time is passed, lets change the mode
+			retval_int = (Last_runmode_int==RUNMODE_COMMAND ? RUNMODE_TRANSMISSION : RUNMODE_COMMAND);
+			// don't let to change mode next 5 seconds
+			modeButton_state_duration_lng = millis()+3000;
+			//most probably we need to indicate somehow, that mode is changed
+			// TODO
+		}
+		
+	} else if (mode_switch_bool){ // if button released
+		modeButton_state_duration_lng = millis();
+		//if (Last_runmode_int==RUNMODE_COMMAND) Serial.println("MODE button released");
+	}
+		
 	
 	if (!SettingsLoaded_bool) {
 		// Invalid settings have been detected in EEPROM
@@ -397,13 +424,17 @@ ArduinoTx::RunMode ArduinoTx::refresh_runmode() {
 		// Ignore actual Mode switch position and force Command mode.
 		// User should enter command INIT to properly initialize all settings,
 		// then user must reset the Arduino (press the reset switch or cycle the power) 
-		mode_switch_bool = LOW;
+		//mode_switch_bool = LOW;
+		retval_int = RUNMODE_COMMAND;
 	}
 	
+
+/*
 	if (mode_switch_bool)
 		retval_int = RUNMODE_TRANSMISSION;
 	else
 		retval_int = RUNMODE_COMMAND;
+*/
 	
 	if (retval_int != Last_runmode_int) {
 		if (retval_int == RUNMODE_COMMAND) {
@@ -414,6 +445,7 @@ ArduinoTx::RunMode ArduinoTx::refresh_runmode() {
 		else {
 			if (Last_runmode_int == RUNMODE_COMMAND) {
 				// leaving command mode: close serial
+				Serial.println("Exit COMMAND MODE");
 				Command_obj.EndCommand();
 			}
 		}
