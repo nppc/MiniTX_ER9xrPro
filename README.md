@@ -17,23 +17,22 @@ For normal FC safe arming with 2 swithes is possible.
 
 ## Some Commands for configuring the transmitter
 *To configure the transmitter, we need to go to Configure mode. In this mode also worcing Serial interface at 2400 baud rate.*
-**DUMP** : print the values of all variables of current model
-**DUMP GLOBAL** : print the values of the Global variables
-**DUMP MODEL** : print the values of the Model variables of the current model
-**DUMP [channel]** : print the values of the Channel variables of the current model
-**DUMP MIXERS** : print the values of the Mixers variables of the current model
-**MODEL [number]** : select the model.
-**? (question mark)** : print the value of a variable (eg ? ICN1)
-**? POTx** : print the analog value of potentiometer x (POT1 = pin A0 ... POT8 = pin A7)
-**? PPM** : print the pulses widths of the PPM signal
-**? SWx** : print the logical value of switch x (SW1 = pin D2 ... SW3 = pin D4)
-**? VERSION** : print the version number of the software
-**? VOLT** : print the battery voltage
-**= (equal sign)** : change the value of a variable (eg ICN1=2)
+- **DUMP** : print the values of all variables of current model
+- **DUMP GLOBAL** : print the values of the Global variables
+- **DUMP MODEL** : print the values of the Model variables of the current model
+- **DUMP [channel]** : print the values of the Channel variables of the current model
+- **DUMP MIXERS** : print the values of the Mixers variables of the current model
+- **MODEL [number]** : select the model.
+- **? (question mark)** : print the value of a variable (eg ? ICN1)
+- **? POTx** : print the analog value of potentiometer x (POT1 = pin A0 ... POT8 = pin A7)
+- **? PPM** : print the pulses widths of the PPM signal
+- **? SWx** : print the logical value of switch x (SW1 = pin D2 ... SW3 = pin D4)
+- **? VERSION** : print the version number of the software
+- **? VOLT** : print the battery voltage
+- **= (equal sign)** : change the value of a variable (eg ICN1=2)
 
 ## Variables for configuring transmitter
 - **CDS** : current model ; this is the model number selected by the MODEL command.
-- **ADS** : alternate model ; this model number is active when the Model switch is closed and MODEL_SWITCH_BEHAVIOUR = MODEL_SWITCH_SIMPLE in arduinotx_config.h
 - **TSC** : throttle cutoff value used by the throttle security check, [0-511] default = 50. See also the Throttle calibration procedure.
 - **BAT** : minimum voltage required for Tx operation, an alarm is triggered when voltage gets lower. Value in the range [0-1023] default = 740. See the Battery monitoring page.
 - **KL1...KL8** : lowest analog value read on potentiometer #1, when the stick (and the hardware trim, if any) is at its lowest position. KL1...KL8 correspond to potentiometers 1 to 8. Value in the range [0-1023] default = 0. See the Potentiometer calibration procedure.
