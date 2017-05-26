@@ -29,7 +29,7 @@ Contact information: http://www.reseau.org/arduinorc/index.php?n=Main.Contact
 // Number of potentiometers (8 max) installed in the transmitter
 // With the Arduino Nano, 8 analog input pins: A0 to A7 are available for proportional channels
 // Potentiometer 1 is connected to A0, pot 2 to A1, ... pot 8 to A7
-#define NPOTS 5	// ch5 is for Flight Controller mode changes (CH5 has own circuity)
+#define NPOTS 7	// ch5 mapped to A6 is for Flight Controller mode changes (CH5 has own circuity)
 
 // Number of user switches (6 max) installed in the transmitter for discrete channels
 // With the Arduino Nano, 6 digital input pins: D2 to D7 are available 
@@ -57,7 +57,7 @@ Contact information: http://www.reseau.org/arduinorc/index.php?n=Main.Contact
 // Switches used to configure the transmitter, not to control channels
 // A switch is ON when opened because there is a pullup resistor on the corresponding input
 #define MODE_SWITCH_PIN 9			// opened=transmission, closed=command mode
-#define THROTTLECUT_SWITCH_PIN A4	// NPPC (Same as POT5 (ch5). While reading this pin we will invert value. Pulldown resistor is connected here)
+#define THROTTLECUT_SWITCH_PIN A6	// NPPC (Same as POT5 (ch5). While reading this pin we will invert value. Pulldown resistor is connected here)
 //#define DUALRATE_SWITCH_PIN 12	// opened=dual rate ON, closed=OFF (NPPC we will not using Dual Rates switch)
 #define MODEL_SWITCH_PIN 8		// opened=use model selected by the MODEL command (CDS global variable), closed=use model corresponding to the ADS global variable
 								// Also will be read during startup to choose from one of three TX protocols.

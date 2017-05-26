@@ -22,7 +22,7 @@ Contact information: http://www.reseau.org/arduinorc/index.php?n=Main.Contact
 #ifndef arduinotx_transmitter_h
 #define arduinotx_transmitter_h
 
-#define SOFTWARE_VERSION PSTR("1.5.5")
+#define SOFTWARE_VERSION PSTR("1.5.6")
 
 #include "arduinotx_config.h"
 

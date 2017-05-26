@@ -108,9 +108,9 @@ void ArduinoTx::Init() {
 			case PPM_PIN:
 				pinMode(idx_byt, OUTPUT);
 				break;
-			case THROTTLECUT_SWITCH_PIN: // NPPC. we do not need pullup here, because we have pulldown resistor connected on this pin. 
-				pinMode(idx_byt, INPUT);
-				break;
+//			case THROTTLECUT_SWITCH_PIN: // NPPC. It is now analog pin 
+//				pinMode(idx_byt, INPUT);
+//				break;
 			default:
 				pinMode(idx_byt, INPUT_PULLUP);
 				break;
@@ -121,6 +121,10 @@ void ArduinoTx::Init() {
 #ifndef BATCHECK_ENABLED // BATCHECK_PIN is A7
 	pinMode(BATCHECK_PIN, INPUT_PULLUP);
 #endif
+
+// reserved for i2c
+pinMode(A4, INPUT_PULLUP);
+pinMode(A5, INPUT_PULLUP);
 
 /*
 //We will use all Ax pins. A0-A3 - Gimbals, A4,A5 - I2C, A6 - Ch5
@@ -193,7 +197,9 @@ void ArduinoTx::Refresh() {
 	
 	// Read other transmitter special switches
 	//DualRate_bool = digitalRead(DUALRATE_SWITCH_PIN); // NPPC never use dual rates functionality
-	ThrottleCut_bool = !digitalRead(THROTTLECUT_SWITCH_PIN); // chaned by NPPC (we have pulldown resitor here. changing this behaviour to have double arming)
+	//ThrottleCut_bool = !digitalRead(THROTTLECUT_SWITCH_PIN); // chaned by NPPC (we have pulldown resitor here. changing this behaviour to have double arming)
+	int ana_tmp = analogRead(THROTTLECUT_SWITCH_PIN); // read this pin as analog, because it is mapped to A6 analog input
+	ThrottleCut_bool = (ana_tmp > 300 ? 0:1); // if "LOW" then Throttle cut is activated
 	
 	// set RunMode according to switches 
 	RunMode_int = refresh_runmode();
@@ -444,6 +450,8 @@ ArduinoTx::RunMode ArduinoTx::refresh_runmode() {
 			modeButton_state_duration_lng = millis()+3000;
 			//most probably we need to indicate somehow, that mode is changed
 			// TODO
+			
+			
 		}
 		
 	} else if (mode_switch_bool){ // if button released

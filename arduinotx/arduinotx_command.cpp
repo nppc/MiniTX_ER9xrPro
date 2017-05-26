@@ -144,8 +144,15 @@ void ArduinotxCmd::Input() {
 #if MODEL_SWITCH_BEHAVIOUR == MODEL_SWITCH_STEPPING
 void ArduinotxCmd::NextDataset() {
 	byte ds_byt = Eeprom_obj.GetVar(0, "CDS");
-	if (ds_byt == NDATASETS)
+	if (ds_byt == NDATASETS) {
 		ds_byt = 0;
+	} else {
+		// if next dataset is not configured (ICT1=0), then go back to the first model
+		int value_int = Eeprom_obj.GetVar(ds_byt+1,"ICT1");
+		if (value_int==0) ds_byt = 0;
+	}
+
+	// Print MODEL number to the console
 	sprintf(Cmdline_str, "MODEL %d", ++ds_byt);
 	process_command_line(Cmdline_str);
 }
