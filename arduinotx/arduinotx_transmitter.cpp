@@ -101,7 +101,6 @@ void ArduinoTx::Init() {
 #ifdef BUZZER_ENABLED
 			case BUZZER_PIN:
 #endif
-			case MULTIPROTOCOL_RESET_PIN:
 			case MULTIPROTOCOL_CONTROL1_PIN:
 			case MULTIPROTOCOL_CONTROL2_PIN:
 			case LED_PIN:
@@ -112,7 +111,8 @@ void ArduinoTx::Init() {
 //				pinMode(idx_byt, INPUT);
 //				break;
 			default:
-				pinMode(idx_byt, INPUT_PULLUP);
+//			MULTIPROTOCOL_RESET_PIN is also here, because we will drive it low or pullup
+			pinMode(idx_byt, INPUT_PULLUP);
 				break;
 		}
 	}
@@ -390,33 +390,34 @@ void ArduinoTx::load_settings() {
 	
 	// hold Multiprotocol Arduino in RESET state while setting data
 	digitalWrite(MULTIPROTOCOL_RESET_PIN,LOW);
+	pinMode(MULTIPROTOCOL_RESET_PIN, OUTPUT);
 	delay(100);
 	byte tx_protocol = get_model_var(MOD_PRT); // FRSKYX=1;FRSKYD=2;BAYANG=3;
 	// lets set Multiprotocol encoder. tx_protocol variable already initialized from EEPROM
 	//char var_str[7];
 	switch (tx_protocol) {
-		case B00000001:	// Protocol 1 - FrSkyX
+		case 1:	// Protocol 1 - FrSkyX
 			digitalWrite(MULTIPROTOCOL_CONTROL1_PIN,LOW);
-			digitalWrite(MULTIPROTOCOL_CONTROL1_PIN,HIGH);
+			digitalWrite(MULTIPROTOCOL_CONTROL2_PIN,HIGH);
 			//getProgmemStrArrayValue(var_str, ModelVarNames_str, 0, 7);
 			break;
-		case B00000010:	// Protocol 2 - FrSkyD
+		case 2:	// Protocol 2 - FrSkyD
 			digitalWrite(MULTIPROTOCOL_CONTROL1_PIN,HIGH);
-			digitalWrite(MULTIPROTOCOL_CONTROL1_PIN,LOW);
+			digitalWrite(MULTIPROTOCOL_CONTROL2_PIN,LOW);
 			//getProgmemStrArrayValue(var_str, ModelVarNames_str, 1, 7);
 			break;
-		case B00000011:	// Protocol 3 - Eachine H8
-			digitalWrite(MULTIPROTOCOL_CONTROL1_PIN,LOW);
-			digitalWrite(MULTIPROTOCOL_CONTROL1_PIN,LOW);
+		case 3:	// Protocol 3 - BAYANG (Eachine H8)
+			digitalWrite(MULTIPROTOCOL_CONTROL1_PIN,HIGH);
+			digitalWrite(MULTIPROTOCOL_CONTROL2_PIN,HIGH);
 			//getProgmemStrArrayValue(var_str, ModelVarNames_str, 2, 7);
 			break;
-		default:
-			digitalWrite(MULTIPROTOCOL_CONTROL1_PIN,HIGH);
-			digitalWrite(MULTIPROTOCOL_CONTROL1_PIN,HIGH);
+		default: // no protocol is selected
+			digitalWrite(MULTIPROTOCOL_CONTROL1_PIN,LOW);
+			digitalWrite(MULTIPROTOCOL_CONTROL2_PIN,LOW);
 			//getProgmemStrArrayValue(var_str, ModelVarNames_str, 3, 7);
 	}
 	// boot Multiprotocol Arduino
-	digitalWrite(MULTIPROTOCOL_RESET_PIN,HIGH);
+	pinMode(MULTIPROTOCOL_RESET_PIN, INPUT_PULLUP);
 	// TODO: show protocol name and wait 2 seconds var_str[7]
 
 	
