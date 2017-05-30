@@ -407,13 +407,13 @@ void ArduinoTx::load_settings() {
 			//getProgmemStrArrayValue(var_str, ModelVarNames_str, 1, 7);
 			break;
 		case 3:	// Protocol 3 - BAYANG (Eachine H8)
-			digitalWrite(MULTIPROTOCOL_CONTROL1_PIN,HIGH);
-			digitalWrite(MULTIPROTOCOL_CONTROL2_PIN,HIGH);
+			digitalWrite(MULTIPROTOCOL_CONTROL1_PIN,LOW);
+			digitalWrite(MULTIPROTOCOL_CONTROL2_PIN,LOW);
 			//getProgmemStrArrayValue(var_str, ModelVarNames_str, 2, 7);
 			break;
 		default: // no protocol is selected
-			digitalWrite(MULTIPROTOCOL_CONTROL1_PIN,LOW);
-			digitalWrite(MULTIPROTOCOL_CONTROL2_PIN,LOW);
+			digitalWrite(MULTIPROTOCOL_CONTROL1_PIN,HIGH);
+			digitalWrite(MULTIPROTOCOL_CONTROL2_PIN,HIGH);
 			//getProgmemStrArrayValue(var_str, ModelVarNames_str, 3, 7);
 	}
 	// boot Multiprotocol Arduino

@@ -845,39 +845,44 @@ static void protocol_init()
 				#endif
 			#endif
 			#ifdef NRF24L01_INSTALLED
-				PE2_off;	//turn off not needed module
 				#if defined(HISKY_NRF24L01_INO)
 					case MODE_HISKY:
+						PE2_off;	//turn off not needed module
 						next_callback=initHiSky();
 						remote_callback = hisky_cb;
 						break;
 				#endif
 				#if defined(V2X2_NRF24L01_INO)
 					case MODE_V2X2:
+						PE2_off;	//turn off not needed module
 						next_callback = initV2x2();
 						remote_callback = ReadV2x2;
 						break;
 				#endif
 				#if defined(YD717_NRF24L01_INO)
 					case MODE_YD717:
+						PE2_off;	//turn off not needed module
 						next_callback=initYD717();
 						remote_callback = yd717_callback;
 						break;
 				#endif
 				#if defined(KN_NRF24L01_INO)
 					case MODE_KN:
+						PE2_off;	//turn off not needed module
 						next_callback = initKN();
 						remote_callback = kn_callback;
 						break;
 				#endif
 				#if defined(SYMAX_NRF24L01_INO)
 					case MODE_SYMAX:
+						PE2_off;	//turn off not needed module
 						next_callback = initSymax();
 						remote_callback = symax_callback;
 						break;
 				#endif
 				#if defined(SLT_NRF24L01_INO)
 					case MODE_SLT:
+						PE2_off;	//turn off not needed module
 						next_callback=initSLT();
 						remote_callback = SLT_callback;
 						break;
@@ -886,84 +891,98 @@ static void protocol_init()
 					case MODE_Q2X2:
 						sub_protocol|=0x08;		// Increase the number of sub_protocols for CX-10
 					case MODE_CX10:
+						PE2_off;	//turn off not needed module
 						next_callback=initCX10();
 						remote_callback = CX10_callback;
 						break;
 				#endif
 				#if defined(CG023_NRF24L01_INO)
 					case MODE_CG023:
+						PE2_off;	//turn off not needed module
 						next_callback=initCG023();
 						remote_callback = CG023_callback;
 						break;
 				#endif
 				#if defined(BAYANG_NRF24L01_INO)
 					case MODE_BAYANG:
+						PE2_off;	//turn off not needed module
 						next_callback=initBAYANG();
 						remote_callback = BAYANG_callback;
 						break;
 				#endif
 				#if defined(ESKY_NRF24L01_INO)
 					case MODE_ESKY:
+						PE2_off;	//turn off not needed module
 						next_callback=initESKY();
 						remote_callback = ESKY_callback;
 						break;
 				#endif
 				#if defined(MT99XX_NRF24L01_INO)
 					case MODE_MT99XX:
+						PE2_off;	//turn off not needed module
 						next_callback=initMT99XX();
 						remote_callback = MT99XX_callback;
 						break;
 				#endif
 				#if defined(MJXQ_NRF24L01_INO)
 					case MODE_MJXQ:
+						PE2_off;	//turn off not needed module
 						next_callback=initMJXQ();
 						remote_callback = MJXQ_callback;
 						break;
 				#endif
 				#if defined(SHENQI_NRF24L01_INO)
 					case MODE_SHENQI:
+						PE2_off;	//turn off not needed module
 						next_callback=initSHENQI();
 						remote_callback = SHENQI_callback;
 						break;
 				#endif
 				#if defined(FY326_NRF24L01_INO)
 					case MODE_FY326:
+						PE2_off;	//turn off not needed module
 						next_callback=initFY326();
 						remote_callback = FY326_callback;
 						break;
 				#endif
 				#if defined(FQ777_NRF24L01_INO)
 					case MODE_FQ777:
+						PE2_off;	//turn off not needed module
 						next_callback=initFQ777();
 						remote_callback = FQ777_callback;
 						break;
 				#endif
 				#if defined(ASSAN_NRF24L01_INO)
 					case MODE_ASSAN:
+						PE2_off;	//turn off not needed module
 						next_callback=initASSAN();
 						remote_callback = ASSAN_callback;
 						break;
 				#endif
 				#if defined(HONTAI_NRF24L01_INO)
 					case MODE_HONTAI:
+						PE2_off;	//turn off not needed module
 						next_callback=initHONTAI();
 						remote_callback = HONTAI_callback;
 						break;
 				#endif
 				#if defined(Q303_NRF24L01_INO)
 					case MODE_Q303:
+						PE2_off;	//turn off not needed module
 						next_callback=initQ303();
 						remote_callback = Q303_callback;
 						break;
 				#endif
 				#if defined(GW008_NRF24L01_INO)
 					case MODE_GW008:
+						PE2_off;	//turn off not needed module
 						next_callback=initGW008();
 						remote_callback = GW008_callback;
 						break;
 				#endif
 				#if defined(DM002_NRF24L01_INO)
 					case MODE_DM002:
+						PE2_off;	//turn off not needed module
 						next_callback=initDM002();
 						remote_callback = DM002_callback;
 						break;
