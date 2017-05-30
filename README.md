@@ -1,7 +1,14 @@
 # MiniTX_ER9xrPro
 Project for mini transmitter with gimbals from Er9xr Pro TX
-# Software
-Software based on arduinorc project (http://www.reseau.org/arduinorc) with mine modifications.
+# Transmitter software
+Software is based on arduinorc project (http://www.reseau.org/arduinorc) with mine modifications.
+Some of the modifications listed here:
+- Added PRT variable to Models to store TX Protocol number
+- Only configured models are selected with Model button
+- Enter/exit Command mode done with push-button, not switch
+- After model is selected, correct Protocol is choosed (rotary dip-switch emulation)
+- Arming (Throttle Cut) is extended to 2 switches
+- some other minor changes
 
 ## Change Models
 To chnage models or to configure the transmitter, press and hold button "C" for 2 seconds to enter/exit Configuration mode.
@@ -41,7 +48,7 @@ For normal FC safe arming with 2 swithes is possible.
 ## Variables for configuring Models general data
 - **NAM** : Model name, 8 characters, no spaces
 - **THC** : Channel number used for throttle control, default=3, 0=no throttle channel.
-- **PRT** : Protocol number of the Multiprotocol module that should be selected for current model 
+- **PRT** : Protocol number of the Multiprotocol module that should be selected for current model. 1-FRSKYX_8CH, 2-FRSKYX_16CH, 3-FRSKYD, 4-FRSKYV, 5-BAYANG(H8), 6-BAYANG(H8S3D), 7-SYMAX (see Multiprotocol _Config.h for more protocols).
 
 ## Variables for configuring every channel of selected Model
 *The name of a variable is composed of 3 letters and one figure. The figure is a channel number.
@@ -53,3 +60,10 @@ For instance, REV1 is the Reverse setting for channel 1, REV2 is the Reverse set
 - **PWL, PWH** : Minimal/Maximal pulse width for this channel, in microseconds. PWL default=720, PWH default=2200. These default values correspond to the Hextronic HXT500 servo and will accomodate most other servos. If your servos are moving erratically when you set the sticks near their minimum or maximum position, you must change these values: try with PWL=900 and PWH=2100. You can try to widen the default range to get a larger rotation angle if your servo supports it.
 - **EPL, EPH** : End points position in percentage from the center of the channel [0,100]. EPL=low end point, EPH=high end point, both default=100. Set these variables if you want to limit the rotation angle of the servo.
 - **SUB** : Subtrim signed percentage [-100,+100], default=0. Setting this variable shifts the neutral position of the servo in either direction, depending on the sign of the value: negative shifts left, positive shifts right.
+
+# Multiprotocol Module software
+Software is based on DIY Multiprotocol TX Module project (https://github.com/pascallanger/DIY-Multiprotocol-TX-Module) with mine modifications.
+
+There is only two modifications:
+- Adjusted prtocols list selected by rotary encoder (7 protocols can be selected)
+- Antenna switch control pins (A1, A2) are used for turn on/off power to the RF module (CC2500 or NRF24L01)

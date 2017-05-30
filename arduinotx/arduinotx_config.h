@@ -66,6 +66,7 @@ Contact information: http://www.reseau.org/arduinorc/index.php?n=Main.Contact
 // define two pins for choosing protocol of MultiProtocol module (currently only three protocols)
 #define MULTIPROTOCOL_CONTROL1_PIN 5		// connected as rotary encoder of MultiProtocol module
 #define MULTIPROTOCOL_CONTROL2_PIN 6		// connected as rotary encoder of MultiProtocol module
+#define MULTIPROTOCOL_CONTROL3_PIN 12		// connected as rotary encoder of MultiProtocol module
 #define MULTIPROTOCOL_RESET_PIN 11		    // On/Off TX arduino
 
 
