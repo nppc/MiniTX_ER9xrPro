@@ -120,7 +120,7 @@ PGM_P const ModelVarNames_str[] PROGMEM = {MVNstring_0,MVNstring_1,MVNstring_2,M
 
 void setup() {
 
-	analogReference(INTERNAL);
+	//analogReference(INTERNAL);
 	noInterrupts(); // No PPM signal until initialization complete
 	ArduinoTx_obj.Init();
 	interrupts();

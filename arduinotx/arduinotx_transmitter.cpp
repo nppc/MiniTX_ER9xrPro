@@ -688,7 +688,7 @@ byte ArduinoTx::check_battery() {
 }
 
 // Read the battery voltage, averaged over several measurements
-// Return value: [0, 1023] ; since we sample the voltage through a 1/3 resistor bridge we return 1023 for about 4.73V, i.e.  216 for 1V
+// Return value: [0, 1023] ; since we sample the voltage through a 50/50 resistor bridge we return 1023 for about 6.6V, i.e.  155 for 1V
 unsigned int ArduinoTx::ReadBattery() {
 	unsigned int retval_int = 2 * get_global_var(GLOBAL_BAT); // average of last 8 analog readings
 	byte count_byt = 0;

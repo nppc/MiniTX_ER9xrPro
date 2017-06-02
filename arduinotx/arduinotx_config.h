@@ -48,11 +48,11 @@ Contact information: http://www.reseau.org/arduinorc/index.php?n=Main.Contact
 #define BATCHECK_ENABLED
 // Analog pin connected to the 1/2 voltage divider
 #define BATCHECK_PIN  A7
-// We are using internal voltage reference 1.1V
+// We are using VCC voltage reference 3.3V
 // Battery voltage correction: if PRINT VOLT does not return the exact voltage measured with a multimeter,
-// then you define the correction here. In my case, PRINT VOLT returns 7.8V and my multimeter 7.7V
-// so the correction should be - 0.1V ; and since 1V is 102 (in ADC units, see ArduinoTx::ReadBattery()) then 0.1V is int(10.2) = - 10 ADC units
-// like this: #define BATVOLT_CORRECTION -10
+// then you define the correction here. In my case, PRINT VOLT returns 4.2V and my multimeter 4.1V
+// so the correction should be - 0.1V ; and since 1V is 155 (in ADC units, see ArduinoTx::ReadBattery()) then 0.1V is int(15.5) = - 15 ADC units
+// like this: #define BATVOLT_CORRECTION -15
 #define BATVOLT_CORRECTION 0
 
 // Switches used to configure the transmitter, not to control channels

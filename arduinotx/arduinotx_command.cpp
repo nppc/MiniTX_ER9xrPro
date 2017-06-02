@@ -440,7 +440,7 @@ void ArduinotxCmd::process_command_line(char *line_str) {
 			}
 #ifdef BATCHECK_ENABLED			
 			else if (strcmp(word2_str, "VOLT") == 0) {
-				float volt_flt = ArduinoTx_obj.ReadBattery() / 216.8; // 216.8 = 1V
+				float volt_flt = ArduinoTx_obj.ReadBattery() / 155.0; // 155.0 = 1V
 				aPrintfln(PSTR("VOLT=%d.%d"), int(volt_flt), int(10 * (volt_flt - int(volt_flt))));
 				printed_bool = true;
 			}
