@@ -109,7 +109,7 @@
 //#define	WK2x01_CYRF6936_INO
 
 //The protocols below need a CC2500 to be installed
-//#define	FRSKYV_CC2500_INO
+#define	FRSKYV_CC2500_INO
 #define	FRSKYD_CC2500_INO
 #define	FRSKYX_CC2500_INO
 //#define	SFHSS_CC2500_INO
@@ -122,7 +122,7 @@
 //#define	HISKY_NRF24L01_INO
 //#define	KN_NRF24L01_INO
 //#define	SLT_NRF24L01_INO
-//#define	SYMAX_NRF24L01_INO
+#define	SYMAX_NRF24L01_INO
 //#define	V2X2_NRF24L01_INO
 //#define	YD717_NRF24L01_INO
 //#define	MT99XX_NRF24L01_INO
@@ -229,7 +229,7 @@ const PPM_Parameters PPM_prot[15]=	{
 /*	2	*/	{MODE_FRSKYX,	CH_16		,	0	,	P_HIGH	,	NO_AUTOBIND	,	40		},	// option=fine freq tuning
 /*	3	*/	{MODE_FRSKYD,	0			,	0	,	P_HIGH	,	NO_AUTOBIND	,	40		},	// option=fine freq tuning
 /*	4	*/	{MODE_FRSKYV,	0			,	0	,	P_HIGH	,	NO_AUTOBIND	,	40		},	// option=fine freq tuning
-/*	5 	*/	{MODE_BAYANG,	BAYANG		,	0	,	P_HIGH	,	NO_AUTOBIND	,	0		},
+/*	5	*/	{MODE_BAYANG,	BAYANG		,	0	,	P_HIGH	,	NO_AUTOBIND	,	0		},
 /*	6	*/	{MODE_BAYANG,	H8S3D		,	0	,	P_HIGH	,	NO_AUTOBIND	,	0		},
 /*	7	*/	{MODE_SYMAX	,	SYMAX		,	0	,	P_HIGH	,	NO_AUTOBIND	,	0		},
 /*	8	*/	{MODE_HUBSAN,	0			,	0	,	P_HIGH	,	NO_AUTOBIND	,	0		},

@@ -103,6 +103,7 @@ void ArduinoTx::Init() {
 #endif
 			case MULTIPROTOCOL_CONTROL1_PIN:
 			case MULTIPROTOCOL_CONTROL2_PIN:
+			case MULTIPROTOCOL_CONTROL3_PIN:
 			case LED_PIN:
 			case PPM_PIN:
 				pinMode(idx_byt, OUTPUT);
@@ -392,28 +393,56 @@ void ArduinoTx::load_settings() {
 	digitalWrite(MULTIPROTOCOL_RESET_PIN,LOW);
 	pinMode(MULTIPROTOCOL_RESET_PIN, OUTPUT);
 	delay(100);
-	byte tx_protocol = get_model_var(MOD_PRT); // FRSKYX=1;FRSKYD=2;BAYANG=3;
+	byte tx_protocol = get_model_var(MOD_PRT); 
 	// lets set Multiprotocol encoder. tx_protocol variable already initialized from EEPROM
 	//char var_str[7];
 	switch (tx_protocol) {
-		case 1:	// Protocol 1 - FrSkyX
+		case 1:	// Protocol 1 - FrSkyX8
 			digitalWrite(MULTIPROTOCOL_CONTROL1_PIN,LOW);
 			digitalWrite(MULTIPROTOCOL_CONTROL2_PIN,HIGH);
+			digitalWrite(MULTIPROTOCOL_CONTROL3_PIN,HIGH);
 			//getProgmemStrArrayValue(var_str, ModelVarNames_str, 0, 7);
 			break;
-		case 2:	// Protocol 2 - FrSkyD
+		case 2:	// Protocol 2 - FrSkyX16
 			digitalWrite(MULTIPROTOCOL_CONTROL1_PIN,HIGH);
 			digitalWrite(MULTIPROTOCOL_CONTROL2_PIN,LOW);
+			digitalWrite(MULTIPROTOCOL_CONTROL3_PIN,HIGH);
 			//getProgmemStrArrayValue(var_str, ModelVarNames_str, 1, 7);
 			break;
-		case 3:	// Protocol 3 - BAYANG (Eachine H8)
+		case 3:	// Protocol 3 - FrSkyD
 			digitalWrite(MULTIPROTOCOL_CONTROL1_PIN,LOW);
 			digitalWrite(MULTIPROTOCOL_CONTROL2_PIN,LOW);
+			digitalWrite(MULTIPROTOCOL_CONTROL3_PIN,HIGH);
 			//getProgmemStrArrayValue(var_str, ModelVarNames_str, 2, 7);
+			break;
+		case 4:	// Protocol 1 - FrSkyV
+			digitalWrite(MULTIPROTOCOL_CONTROL1_PIN,HIGH);
+			digitalWrite(MULTIPROTOCOL_CONTROL2_PIN,HIGH);
+			digitalWrite(MULTIPROTOCOL_CONTROL3_PIN,LOW);
+			//getProgmemStrArrayValue(var_str, ModelVarNames_str, 0, 7);
+			break;
+		case 5:	// Protocol 2 - BAYANG (Eachine H8)
+			digitalWrite(MULTIPROTOCOL_CONTROL1_PIN,LOW);
+			digitalWrite(MULTIPROTOCOL_CONTROL2_PIN,HIGH);
+			digitalWrite(MULTIPROTOCOL_CONTROL3_PIN,LOW);
+			//getProgmemStrArrayValue(var_str, ModelVarNames_str, 1, 7);
+			break;
+		case 6:	// Protocol 3 - BAYANG (H8S3D)
+			digitalWrite(MULTIPROTOCOL_CONTROL1_PIN,HIGH);
+			digitalWrite(MULTIPROTOCOL_CONTROL2_PIN,LOW);
+			digitalWrite(MULTIPROTOCOL_CONTROL3_PIN,LOW);
+			//getProgmemStrArrayValue(var_str, ModelVarNames_str, 2, 7);
+			break;
+		case 7:	// Protocol 1 - SYMAX
+			digitalWrite(MULTIPROTOCOL_CONTROL1_PIN,LOW);
+			digitalWrite(MULTIPROTOCOL_CONTROL2_PIN,LOW);
+			digitalWrite(MULTIPROTOCOL_CONTROL3_PIN,LOW);
+			//getProgmemStrArrayValue(var_str, ModelVarNames_str, 0, 7);
 			break;
 		default: // no protocol is selected
 			digitalWrite(MULTIPROTOCOL_CONTROL1_PIN,HIGH);
 			digitalWrite(MULTIPROTOCOL_CONTROL2_PIN,HIGH);
+			digitalWrite(MULTIPROTOCOL_CONTROL3_PIN,HIGH);
 			//getProgmemStrArrayValue(var_str, ModelVarNames_str, 3, 7);
 	}
 	// boot Multiprotocol Arduino
