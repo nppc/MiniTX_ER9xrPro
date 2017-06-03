@@ -281,9 +281,6 @@ unsigned int ArduinoTx::ComputeChannelPulse(byte chan_byt, unsigned int ana_valu
 	unsigned int value_int = ana_value_int;
 	
 	byte throttle_channel_byt = get_model_var(MOD_THC) - 1; // 0-based throttle chan number
-	if (ThrottleCut_bool || !EngineEnabled_bool)
-		if (chan_byt == throttle_channel_byt)
-			value_int = 0; // cut throttle
 	
 	// Dual rate and Exponential
 	if (DualRate_bool) {
@@ -374,6 +371,11 @@ unsigned int ArduinoTx::ComputeChannelPulse(byte chan_byt, unsigned int ana_valu
 	
 	// Map analog inputs to PPM rates
 	retval_int =  map(value_int, 0, 1023, low_int, high_int);
+
+	// when we cut throttle
+	if (ThrottleCut_bool || !EngineEnabled_bool)
+		if (chan_byt == throttle_channel_byt)
+			retval_int = get_channel_var(chan_byt, CHAN_PWL); // cut throttle (do not respect REV here)
 	
 	return retval_int;
 }
